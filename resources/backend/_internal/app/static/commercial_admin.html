@@ -1,0 +1,961 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>雄图IP智能体 客户运营后台</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f3f6fb;
+      --panel: #ffffff;
+      --soft: #f8fafc;
+      --line: #d8e1ef;
+      --text: #102033;
+      --muted: #64748b;
+      --brand: #0f8276;
+      --brand-dark: #0a6c62;
+      --blue: #2563eb;
+      --red: #dc2626;
+      --amber: #b45309;
+      --green: #047857;
+      --shadow: 0 12px 28px rgba(15, 23, 42, 0.07);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Microsoft YaHei", Arial, sans-serif;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px 28px;
+      background: #111827;
+      color: #fff;
+    }
+    h1, h2, h3 { margin: 0; }
+    h1 { font-size: 22px; }
+    h2 { font-size: 18px; }
+    h3 { font-size: 15px; }
+    small, .muted { color: var(--muted); }
+    header small { color: #b8c2d6; }
+    main {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 22px;
+    }
+    .toolbar, .actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 10px 11px;
+      font-size: 14px;
+      background: #fff;
+      color: var(--text);
+      outline: none;
+    }
+    textarea { min-height: 82px; resize: vertical; }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(15, 130, 118, 0.12);
+    }
+    label {
+      display: block;
+      margin: 11px 0 6px;
+      color: #475569;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    button {
+      border: 0;
+      border-radius: 7px;
+      padding: 10px 14px;
+      background: var(--brand);
+      color: #fff;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    button:hover { background: var(--brand-dark); }
+    button.secondary { background: #e8eef7; color: #102033; }
+    button.ghost { background: #fff; color: var(--brand); border: 1px solid #9dd5ce; }
+    button.danger { background: #fee2e2; color: var(--red); }
+    button.warning { background: #fff7ed; color: var(--amber); }
+    .session-badge {
+      min-width: 128px;
+      padding: 9px 12px;
+      border: 1px solid #2b3a55;
+      border-radius: 7px;
+      background: #0b1220;
+      color: #dbeafe;
+      font-size: 13px;
+      text-align: center;
+    }
+    .login-screen {
+      min-height: calc(100vh - 82px);
+      display: grid;
+      place-items: center;
+      padding: 28px;
+    }
+    .login-card {
+      width: min(420px, 100%);
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+    .login-card h2 { margin-bottom: 8px; font-size: 24px; }
+    .login-card p { margin: 0 0 18px; color: var(--muted); line-height: 1.6; }
+    .login-card button { width: 100%; margin-top: 14px; }
+    .app-shell[hidden], .login-screen[hidden] { display: none; }
+    .notice {
+      margin-bottom: 16px;
+      padding: 11px 13px;
+      border: 1px solid #bbf7d0;
+      border-radius: 8px;
+      background: #ecfdf5;
+      color: #065f46;
+    }
+    .notice.bad {
+      border-color: #fecaca;
+      background: #fff1f2;
+      color: #991b1b;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .metric, .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+    .metric { padding: 15px; min-height: 90px; }
+    .metric span { display: block; color: var(--muted); font-size: 13px; }
+    .metric strong { display: block; margin-top: 8px; font-size: 27px; letter-spacing: 0; }
+    .layout {
+      display: grid;
+      grid-template-columns: 390px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+    .panel { padding: 16px; margin-bottom: 16px; }
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .tab { background: #f1f5f9; color: #475569; border: 1px solid var(--line); }
+    .tab.active { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .tab-page[hidden] { display: none; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .new-key, .status-box {
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px solid #fed7aa;
+      border-radius: 8px;
+      background: #fff7ed;
+      color: #9a3412;
+      word-break: break-all;
+      line-height: 1.6;
+    }
+    .status-box {
+      border-color: #cbd5e1;
+      background: var(--soft);
+      color: var(--text);
+    }
+    .filters {
+      display: grid;
+      grid-template-columns: 1.5fr 160px auto;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td {
+      padding: 10px 9px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+    th { color: var(--muted); font-weight: 800; background: var(--soft); }
+    tr:hover td { background: #fbfdff; }
+    .table-wrap { overflow: auto; border: 1px solid var(--line); border-radius: 8px; }
+    .empty { padding: 28px; text-align: center; color: var(--muted); background: #fbfdff; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #e0f2fe;
+      color: #075985;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .badge.active, .badge.trial, .badge.completed { background: #dcfce7; color: var(--green); }
+    .badge.disabled, .badge.paused, .badge.banned, .badge.failed { background: #fee2e2; color: var(--red); }
+    .badge.expired, .badge.pending_external_dump { background: #fef3c7; color: #92400e; }
+    .two-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 1100px) {
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      .layout, .two-columns { grid-template-columns: 1fr; }
+      header { flex-direction: column; align-items: flex-start; }
+      .filters { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>雄图IP智能体 客户运营后台</h1>
+      <small>客户管理、授权激活、版本更新、客户端日志和审计记录</small>
+    </div>
+    <div class="toolbar">
+      <span id="adminUserBadge" class="session-badge">未登录</span>
+      <button id="logoutAdmin" class="secondary" hidden>退出登录</button>
+      <button id="refreshAll">刷新数据</button>
+    </div>
+  </header>
+
+  <section id="loginScreen" class="login-screen">
+    <form id="adminLoginForm" class="login-card">
+      <h2>后台登录</h2>
+      <p>请输入运营后台账号和密码，登录后可管理客户、授权、版本和日志。</p>
+      <label>账号</label>
+      <input id="adminUsername" autocomplete="username" placeholder="请输入账号" />
+      <label>密码</label>
+      <input id="adminPassword" type="password" autocomplete="current-password" placeholder="请输入密码" />
+      <button id="adminLoginButton" type="submit">登录后台</button>
+    </form>
+  </section>
+
+  <main id="appShell" class="app-shell" hidden>
+    <div id="notice" class="notice">正在加载运营数据...</div>
+
+    <section class="metrics">
+      <div class="metric"><span>客户总数</span><strong id="mCustomers">0</strong></div>
+      <div class="metric"><span>有效授权</span><strong id="mLicenses">0</strong></div>
+      <div class="metric"><span>绑定设备</span><strong id="mDevices">0</strong></div>
+      <div class="metric"><span>最新版本</span><strong id="mVersion">-</strong></div>
+      <div class="metric"><span>近期错误</span><strong id="mErrors">0</strong></div>
+    </section>
+
+    <section class="layout">
+      <aside>
+        <div class="panel">
+          <div class="panel-head">
+            <h2>快速操作</h2>
+            <small>常用运营动作</small>
+          </div>
+          <div class="tabs">
+            <button class="tab active" data-tab="customer">客户</button>
+            <button class="tab" data-tab="license">授权</button>
+            <button class="tab" data-tab="orders">订单</button>
+            <button class="tab" data-tab="release">版本</button>
+          </div>
+
+          <div id="tab-customer" class="tab-page">
+            <h3>新建客户</h3>
+            <label>客户名称</label>
+            <input id="customerName" placeholder="例如：杭州某某科技" />
+            <div class="row">
+              <div>
+                <label>手机号</label>
+                <input id="customerPhone" placeholder="客户手机号" />
+              </div>
+              <div>
+                <label>微信</label>
+                <input id="customerWechat" placeholder="客户微信" />
+              </div>
+            </div>
+            <label>邮箱</label>
+            <input id="customerEmail" placeholder="客户邮箱" />
+            <label>公司</label>
+            <input id="customerCompany" placeholder="公司或团队名称" />
+            <label>备注</label>
+            <textarea id="customerNotes" placeholder="购买套餐、服务记录、特殊说明"></textarea>
+            <div class="actions"><button id="createCustomer">创建客户</button></div>
+          </div>
+
+          <div id="tab-license" class="tab-page" hidden>
+            <h3>生成授权码</h3>
+            <label>选择客户</label>
+            <select id="licenseCustomer"></select>
+            <div class="row">
+              <div>
+                <label>套餐</label>
+                <select id="licensePlan">
+                  <option value="trial">试用版</option>
+                  <option value="monthly_premium" selected>高级会员（月付）</option>
+                  <option value="monthly_diamond">钻石会员（月付）</option>
+                  <option value="lifetime">永久版</option>
+                  <option value="custom">定制版</option>
+                </select>
+              </div>
+              <div>
+                <label>可绑定设备数</label>
+                <input id="licenseMaxDevices" type="number" min="1" value="1" />
+              </div>
+            </div>
+            <label>赠送积分</label>
+            <input id="licenseCreditGrant" type="number" min="0" value="36000" placeholder="试用版1300；高级会员36000；钻石会员200000" />
+            <label>到期时间</label>
+            <input id="licenseExpires" placeholder="例如：2027-06-18T23:59:59+08:00；永久可留空" />
+            <label>功能权限</label>
+            <input id="licenseFeatures" value="digital_human,video_remix,publish" />
+            <label>授权备注</label>
+            <textarea id="licenseNotes" placeholder="订单号、售后说明等"></textarea>
+            <div class="actions"><button id="createLicense">生成授权码</button></div>
+            <div id="newLicenseKey" class="new-key" hidden></div>
+          </div>
+
+          <div id="tab-orders" class="tab-page" hidden>
+            <h3>收款订单</h3>
+            <label>订单状态</label>
+            <select id="orderStatusFilter">
+              <option value="">全部订单</option>
+              <option value="pending_review">待确认收款</option>
+              <option value="needs_evidence">需补充凭证</option>
+              <option value="fulfilled">已发货</option>
+              <option value="fulfillment_failed">发货失败</option>
+              <option value="rejected">已驳回</option>
+            </select>
+            <div class="actions"><button id="refreshOrders" class="ghost">刷新订单</button></div>
+            <div class="status-box">客户提交付款信息后，先核对微信收款，再点击确认收款并发货。</div>
+          </div>
+
+          <div id="tab-release" class="tab-page" hidden>
+            <h3>发布新版本</h3>
+            <div class="row">
+              <div>
+                <label>版本号</label>
+                <input id="releaseVersion" placeholder="例如：1.2.0" />
+              </div>
+              <div>
+                <label>渠道</label>
+                <select id="releaseChannel"><option value="stable">正式版</option><option value="beta">测试版</option></select>
+              </div>
+            </div>
+            <label>安装包</label>
+            <input id="releaseFile" type="file" accept=".zip,.exe,.msi,.7z" />
+            <label>更新说明</label>
+            <textarea id="releaseNotes" placeholder="本次更新内容"></textarea>
+            <div class="actions">
+              <label style="display:flex;align-items:center;gap:8px;margin:0;">
+                <input id="releaseForce" type="checkbox" style="width:auto;" /> 强制更新
+              </label>
+              <button id="uploadRelease">上传并发布版本</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>系统健康</h2>
+            <button id="runBackup" class="ghost">立即备份</button>
+          </div>
+          <div id="healthBox" class="status-box">等待检测...</div>
+        </div>
+      </aside>
+
+      <section>
+        <div class="panel">
+          <div class="panel-head">
+            <h2>订单管理</h2>
+            <small>人工确认微信收款后，系统自动发授权码或充值积分</small>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>订单</th><th>客户</th><th>套餐</th><th>金额</th><th>状态</th><th>凭证</th><th>操作</th></tr></thead>
+              <tbody id="ordersBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>客户管理</h2>
+            <small>搜索客户、查看联系方式和状态</small>
+          </div>
+          <div class="filters">
+            <input id="customerSearch" placeholder="搜索客户、电话、微信、公司" />
+            <select id="customerStatus">
+              <option value="">全部状态</option>
+              <option value="active">正式客户</option>
+              <option value="trial">试用客户</option>
+              <option value="paused">暂停</option>
+              <option value="banned">封禁</option>
+            </select>
+            <button id="searchCustomers" class="ghost">查询</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>客户</th><th>联系方式</th><th>公司</th><th>状态</th><th>备注</th><th>操作</th></tr></thead>
+              <tbody id="customersBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>授权管理</h2>
+            <small>禁用、续期、重置设备绑定</small>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>授权码</th><th>客户</th><th>套餐</th><th>设备</th><th>积分余额</th><th>到期</th><th>状态</th><th>操作</th></tr></thead>
+              <tbody id="licensesBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="two-columns">
+          <div class="panel">
+            <div class="panel-head"><h2>版本更新</h2><small>客户端检查更新使用</small></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>版本</th><th>渠道</th><th>强制</th><th>下载地址</th></tr></thead>
+                <tbody id="releasesBody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>备份记录</h2><small>数据库和客户资料备份</small></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>时间</th><th>状态</th><th>大小</th></tr></thead>
+                <tbody id="backupsBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="two-columns">
+          <div class="panel">
+            <div class="panel-head"><h2>客户日志</h2><small>客户端运行问题</small></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>时间</th><th>级别</th><th>事件</th><th>内容</th></tr></thead>
+                <tbody id="logsBody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>审计记录</h2><small>客户和授权变更留痕</small></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>时间</th><th>操作者</th><th>动作</th><th>对象</th></tr></thead>
+                <tbody id="auditBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const state = { customers: [], licenses: [], releases: [], logs: [], audit: [], backups: [], orders: [], health: null };
+    const $ = (id) => document.getElementById(id);
+    const text = (value) => String(value ?? "").replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+    const notice = (message, bad = false) => {
+      $("notice").textContent = message;
+      $("notice").classList.toggle("bad", bad);
+    };
+    let pendingDisableLicenseId = "";
+    let pendingDisableTimer = 0;
+    let pendingDeleteCustomerId = "";
+    let pendingDeleteCustomerTimer = 0;
+    let adminSessionUser = "";
+    function setLoginVisible(visible) {
+      $("loginScreen").hidden = !visible;
+      $("appShell").hidden = visible;
+      $("logoutAdmin").hidden = visible;
+      $("refreshAll").hidden = visible;
+      $("adminUserBadge").textContent = visible ? "未登录" : `已登录：${adminSessionUser || "管理员"}`;
+    }
+    async function api(path, options = {}) {
+      const headers = options.body instanceof FormData ? {} : { "Content-Type": "application/json" };
+      const res = await fetch(path, {
+        ...options,
+        credentials: "same-origin",
+        headers: { ...headers, ...(options.headers || {}) },
+      });
+      const contentType = res.headers.get("content-type") || "";
+      const data = contentType.includes("application/json") ? await res.json().catch(() => ({})) : {};
+      if (res.status === 401) setLoginVisible(true);
+      if (!res.ok) throw new Error(errorMessage(data.detail || res.statusText));
+      return data;
+    }
+    function errorMessage(code) {
+      const map = {
+        "admin login required": "请先登录运营后台。",
+        "admin login failed": "账号或密码不正确。",
+        too_many_requests: "请求太频繁，请稍后再试。",
+        version_required: "请填写版本号。",
+        empty_release_file: "安装包为空，请重新选择。",
+        unsupported_release_file: "安装包格式不支持，请使用 zip、exe、msi 或 7z。",
+        license_not_found: "授权码不存在。",
+        license_disabled: "授权已停用。",
+        license_expired: "授权已到期。",
+        device_limit_reached: "设备数量已达上限，请重置设备或升级授权。",
+        machine_mismatch: "当前设备与激活设备不一致。",
+        license_credit_insufficient: "积分不足，请充值或购买正式版。",
+        order_not_confirmable: "当前订单状态不能确认收款。",
+        order_not_rejectable: "已发货订单不能驳回。",
+        order_not_editable: "当前订单不能要求补凭证。",
+        order_not_retryable: "只有发货失败的订单才能重试。",
+        existing_license_not_found: "客户填写的已有授权码不存在，请核对后再发货。",
+        "customer not found": "客户不存在或已删除。",
+      };
+      return map[code] || String(code || "请求失败");
+    }
+    function badge(value) {
+      const v = text(value || "-");
+      return `<span class="badge ${v}">${v}</span>`;
+    }
+    function customerMap() {
+      return Object.fromEntries(state.customers.map((item) => [item.customer_id, item.name]));
+    }
+    function renderOrders() {
+      $("ordersBody").innerHTML = state.orders.map((order) => `
+        <tr>
+          <td><strong>${text(order.order_no)}</strong><br><small>${text(order.created_at)}</small></td>
+          <td>${text(order.contact_name || order.wechat || "-")}<br><small>${text(order.phone || order.wechat || "")}</small></td>
+          <td>${text(order.product_name || order.product_type)}<br><small>${Number(order.credit_grant || 0)} 积分</small></td>
+          <td>￥${(Number(order.amount_cents || 0) / 100).toFixed(2)}</td>
+          <td>${text(order.status_label || order.status)}</td>
+          <td>${order.evidence_file_id ? "已上传" : text(order.payment_note || "-")}</td>
+          <td>
+            <div class="actions" style="margin-top:0">
+              ${["pending_review", "needs_evidence", "fulfillment_failed"].includes(order.status) ? `<button data-order-confirm="${text(order.order_id)}">确认收款并发货</button>` : ""}
+              ${order.status === "pending_review" ? `<button class="ghost" data-order-evidence="${text(order.order_id)}">要求补凭证</button>` : ""}
+              ${order.status === "fulfillment_failed" ? `<button class="warning" data-order-retry="${text(order.order_id)}">重试发货</button>` : ""}
+              ${!["fulfilled", "rejected"].includes(order.status) ? `<button class="danger" data-order-reject="${text(order.order_id)}">驳回</button>` : ""}
+            </div>
+          </td>
+        </tr>`).join("") || `<tr><td colspan="7"><div class="empty">暂无订单</div></td></tr>`;
+      document.querySelectorAll("[data-order-confirm]").forEach((button) => button.addEventListener("click", () => confirmOrder(button.dataset.orderConfirm)));
+      document.querySelectorAll("[data-order-evidence]").forEach((button) => button.addEventListener("click", () => requestOrderEvidence(button.dataset.orderEvidence)));
+      document.querySelectorAll("[data-order-retry]").forEach((button) => button.addEventListener("click", () => retryOrder(button.dataset.orderRetry)));
+      document.querySelectorAll("[data-order-reject]").forEach((button) => button.addEventListener("click", () => rejectOrder(button.dataset.orderReject)));
+    }
+    function renderCustomers() {
+      $("licenseCustomer").innerHTML = state.customers.map((c) => `<option value="${text(c.customer_id)}">${text(c.name)}</option>`).join("");
+      $("customersBody").innerHTML = state.customers.map((c) => `
+        <tr>
+          <td><strong>${text(c.name)}</strong><br><small>${text(c.customer_id)}</small></td>
+          <td>${text(c.phone || c.contact || "-")}<br><small>${text(c.wechat || c.email || "")}</small></td>
+          <td>${text(c.company || "-")}</td>
+          <td>${badge(c.status)}</td>
+          <td>${text(c.notes || c.note || "-")}</td>
+          <td>
+            <div class="actions" style="margin-top:0">
+              <button class="danger" data-delete-customer="${text(c.customer_id)}">${pendingDeleteCustomerId === c.customer_id ? "确认删除" : "删除"}</button>
+            </div>
+          </td>
+        </tr>`).join("") || `<tr><td colspan="6"><div class="empty">暂无客户</div></td></tr>`;
+      document.querySelectorAll("[data-delete-customer]").forEach((button) => button.addEventListener("click", () => deleteCustomer(button.dataset.deleteCustomer)));
+    }
+    function renderLicenses() {
+      const names = customerMap();
+      $("licensesBody").innerHTML = state.licenses.map((l) => `
+        <tr>
+          <td><strong>${text(l.key_preview)}</strong><br><small>${text(l.license_id)}</small></td>
+          <td>${text(names[l.customer_id] || l.customer_id)}</td>
+          <td>${text(l.plan)}<br><small>${text((l.feature_flags || l.features || []).join(", "))}</small></td>
+          <td>${Number(l.bound_devices || l.activated_devices || 0)} / ${Number(l.max_devices || l.seats || 1)}</td>
+          <td>${creditText(l)}</td>
+          <td>${text(l.expires_at || "永久")}</td>
+          <td>${badge(l.status)}</td>
+          <td>
+            <div class="actions" style="margin-top:0">
+              <button class="warning" data-reset="${text(l.license_id)}">重置设备</button>
+              <button class="ghost" data-adjust-credit="${text(l.license_id)}">加积分</button>
+              <button class="ghost" data-refresh-credit="${text(l.license_id)}">刷新积分</button>
+              ${(l.credit_lock_reason || l.credits?.locked || l.usage_lock_reason || l.usage?.locked) ? `<button class="ghost" data-restore-paid="${text(l.license_id)}">恢复正式版</button>` : ""}
+              <button class="danger" data-disable="${text(l.license_id)}">${pendingDisableLicenseId === l.license_id ? "确认停用" : "停用"}</button>
+            </div>
+          </td>
+        </tr>`).join("") || `<tr><td colspan="8"><div class="empty">暂无授权</div></td></tr>`;
+      document.querySelectorAll("[data-reset]").forEach((button) => button.addEventListener("click", () => resetDevice(button.dataset.reset)));
+      document.querySelectorAll("[data-adjust-credit]").forEach((button) => button.addEventListener("click", () => adjustCredits(button.dataset.adjustCredit)));
+      document.querySelectorAll("[data-refresh-credit]").forEach((button) => button.addEventListener("click", () => refreshCreditCycle(button.dataset.refreshCredit)));
+      document.querySelectorAll("[data-restore-paid]").forEach((button) => button.addEventListener("click", () => restorePaid(button.dataset.restorePaid)));
+      document.querySelectorAll("[data-disable]").forEach((button) => button.addEventListener("click", () => disableLicense(button.dataset.disable)));
+    }
+    function creditText(l) {
+      const credits = l.credits || {};
+      const balance = Number(credits.balance ?? l.credit_balance ?? 0);
+      const grant = Number(credits.grant_monthly ?? l.credit_grant_monthly ?? 0);
+      const remainingSeconds = Number(credits.remaining_seconds ?? Math.floor(balance / 15));
+      const locked = Boolean(credits.locked || l.credit_lock_reason);
+      return `${balance} / ${grant} 积分<br><small>${locked ? "积分已用完，需恢复或加积分" : `约可用 ${remainingSeconds} 秒`}</small>`;
+    }
+    function renderReleases() {
+      $("releasesBody").innerHTML = state.releases.map((r) => `
+        <tr>
+          <td><strong>${text(r.version)}</strong><br><small>${text(r.published_at || r.created_at || "")}</small></td>
+          <td>${text(r.channel)} / ${text(r.platform)}</td>
+          <td>${r.force_update ? "是" : "否"}</td>
+          <td><small>${text(r.download_url)}</small></td>
+        </tr>`).join("") || `<tr><td colspan="4"><div class="empty">暂无版本</div></td></tr>`;
+    }
+    function renderBackups() {
+      $("backupsBody").innerHTML = state.backups.map((item) => `
+        <tr>
+          <td><small>${text(item.created_at)}</small></td>
+          <td>${badge(item.status)}</td>
+          <td>${Number(item.size_bytes || 0)} B</td>
+        </tr>`).join("") || `<tr><td colspan="3"><div class="empty">暂无备份</div></td></tr>`;
+    }
+    function renderHealth() {
+      const health = state.health;
+      if (!health) {
+        $("healthBox").textContent = "等待检测...";
+        return;
+      }
+      const alerts = health.alerts && health.alerts.length ? health.alerts.join("、") : "暂无告警";
+      $("healthBox").textContent = `数据库：${health.database.backend} / ${health.database.ready ? "可用" : "需配置"}；备份：${health.backups.count}；版本：${health.releases.latest_version || "未发布"}；告警：${alerts}`;
+    }
+    function renderLogs() {
+      $("logsBody").innerHTML = state.logs.map((log) => `
+        <tr>
+          <td><small>${text(log.created_at)}</small></td>
+          <td>${badge(log.level)}</td>
+          <td>${text(log.event_type)}</td>
+          <td>${text(log.message)}</td>
+        </tr>`).join("") || `<tr><td colspan="4"><div class="empty">暂无客户日志</div></td></tr>`;
+    }
+    function renderAudit() {
+      $("auditBody").innerHTML = state.audit.map((row) => `
+        <tr>
+          <td><small>${text(row.created_at)}</small></td>
+          <td>${text(row.actor)}</td>
+          <td>${text(actionLabel(row.action))}</td>
+          <td>${text(row.target_type)}<br><small>${text(row.target_id)}</small></td>
+        </tr>`).join("") || `<tr><td colspan="4"><div class="empty">暂无审计记录</div></td></tr>`;
+    }
+    function actionLabel(action) {
+      return {
+        "customer.create": "创建客户",
+        "customer.update": "更新客户",
+        "customer.delete": "删除客户",
+        "license.create": "创建授权",
+        "license.update": "更新授权",
+        "license.disable": "停用授权",
+        "license.reset_device": "重置设备",
+        "release.publish": "发布版本",
+        "activation.create": "客户激活",
+      }[action] || action;
+    }
+    async function refreshAll() {
+      try {
+        const query = new URLSearchParams({ q: $("customerSearch")?.value || "", status: $("customerStatus")?.value || "" });
+        const orderStatus = encodeURIComponent($("orderStatusFilter")?.value || "");
+        const [summary, health, backups, customers, licenses, releases, orders, logs, audit] = await Promise.all([
+          api("/admin/api/summary"),
+          api("/admin/api/health"),
+          api("/admin/api/backups"),
+          api(`/admin/api/customers?${query.toString()}`),
+          api("/admin/api/licenses"),
+          api("/admin/api/releases"),
+          api(`/admin/api/orders?status=${orderStatus}`),
+          api("/admin/api/client-logs?limit=30"),
+          api("/admin/api/audit-logs?limit=40"),
+        ]);
+        state.health = health;
+        state.backups = backups.items || [];
+        state.customers = customers;
+        state.licenses = licenses;
+        state.releases = releases;
+        state.orders = orders;
+        state.logs = logs;
+        state.audit = audit;
+        $("mCustomers").textContent = summary.customers || 0;
+        $("mLicenses").textContent = summary.active_licenses || 0;
+        $("mDevices").textContent = summary.online_devices || 0;
+        $("mVersion").textContent = summary.latest_version || summary.latest_release?.version || "-";
+        $("mErrors").textContent = summary.recent_errors?.length || 0;
+        renderHealth();
+        renderBackups();
+        renderCustomers();
+        renderOrders();
+        renderLicenses();
+        renderReleases();
+        renderLogs();
+        renderAudit();
+        notice("运营数据已刷新。");
+      } catch (error) {
+        notice(error.message, true);
+      }
+    }
+    async function resetDevice(id) {
+      if (!confirm("确定重置这条授权的设备绑定吗？客户下次可重新激活。")) return;
+      await api(`/admin/api/licenses/${id}/reset-device`, { method: "POST" });
+      await refreshAll();
+    }
+    async function deleteCustomer(id) {
+      if (pendingDeleteCustomerId !== id) {
+        pendingDeleteCustomerId = id;
+        window.clearTimeout(pendingDeleteCustomerTimer);
+        pendingDeleteCustomerTimer = window.setTimeout(() => {
+          pendingDeleteCustomerId = "";
+          renderCustomers();
+        }, 6000);
+        notice("再次点击“确认删除”后，该客户会从列表删除，授权码会立即停用，设备绑定同步失效。");
+        renderCustomers();
+        return;
+      }
+      pendingDeleteCustomerId = "";
+      window.clearTimeout(pendingDeleteCustomerTimer);
+      try {
+        const result = await api(`/admin/api/customers/${id}`, { method: "DELETE" });
+        notice(`客户已删除，已停用 ${Number(result.disabled_licenses || 0)} 条授权码。`);
+        await refreshAll();
+      } catch (error) {
+        notice(error.message || "删除客户失败，请稍后再试。", true);
+        renderCustomers();
+      }
+    }
+    async function restorePaid(id) {
+      if (!confirm("确定将这条授权恢复为高级会员并补充 36000 积分吗？")) return;
+      await api(`/admin/api/licenses/${id}/restore-paid`, {
+        method: "POST",
+        body: JSON.stringify({ plan: "monthly_premium", credit_grant: 36000 }),
+      });
+      await refreshAll();
+    }
+    async function adjustCredits(id) {
+      const value = prompt("请输入要增加的积分数量，例如 36000。输入负数可以扣减。", "36000");
+      if (value === null) return;
+      const delta = Number(value);
+      if (!Number.isFinite(delta) || delta === 0) {
+        notice("积分数量无效。", true);
+        return;
+      }
+      await api(`/admin/api/licenses/${id}/credits/adjust`, {
+        method: "POST",
+        body: JSON.stringify({ delta_credits: delta, reason: "manual_adjust", note: "后台手动调整" }),
+      });
+      await refreshAll();
+    }
+    async function refreshCreditCycle(id) {
+      if (!confirm("确定刷新本周期积分吗？剩余积分不会结转，会重置为套餐赠送积分。")) return;
+      await api(`/admin/api/licenses/${id}/credits/refresh-cycle`, { method: "POST" });
+      await refreshAll();
+    }
+    async function disableLicense(id) {
+      if (pendingDisableLicenseId !== id) {
+        pendingDisableLicenseId = id;
+        window.clearTimeout(pendingDisableTimer);
+        pendingDisableTimer = window.setTimeout(() => {
+          pendingDisableLicenseId = "";
+          renderLicenses();
+        }, 5000);
+        notice("再次点击“确认停用”后，这条授权才会被停用。");
+        renderLicenses();
+        return;
+      }
+      pendingDisableLicenseId = "";
+      window.clearTimeout(pendingDisableTimer);
+      try {
+        await api(`/admin/api/licenses/${id}/revoke`, { method: "POST" });
+        notice("授权已停用。");
+        await refreshAll();
+      } catch (error) {
+        notice(error.message || "停用失败，请稍后再试。", true);
+        renderLicenses();
+      }
+    }
+    async function confirmOrder(id) {
+      const note = prompt("确认已收到客户付款？填写备注：", "已确认到账");
+      if (note === null) return;
+      const response = await api(`/admin/api/orders/${id}/confirm-payment`, {
+        method: "POST",
+        body: JSON.stringify({ note }),
+      });
+      const delivery = response.order?.delivery;
+      if (delivery?.license_key) {
+        $("newLicenseKey").hidden = false;
+        $("newLicenseKey").textContent = `订单已发货，请复制给客户：${delivery.license_key}`;
+      }
+      await refreshAll();
+    }
+    async function requestOrderEvidence(id) {
+      const note = prompt("请填写需要客户补充凭证的原因：", "付款截图不清晰，请补充");
+      if (note === null) return;
+      await api(`/admin/api/orders/${id}/request-evidence`, {
+        method: "POST",
+        body: JSON.stringify({ note }),
+      });
+      await refreshAll();
+    }
+    async function retryOrder(id) {
+      await api(`/admin/api/orders/${id}/retry-fulfillment`, {
+        method: "POST",
+        body: JSON.stringify({ note: "后台重试发货" }),
+      });
+      await refreshAll();
+    }
+    async function rejectOrder(id) {
+      const note = prompt("请填写驳回原因：", "未查到付款");
+      if (note === null) return;
+      await api(`/admin/api/orders/${id}/reject`, {
+        method: "POST",
+        body: JSON.stringify({ note }),
+      });
+      await refreshAll();
+    }
+    document.querySelectorAll(".tab").forEach((button) => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach((item) => item.classList.toggle("active", item === button));
+        document.querySelectorAll(".tab-page").forEach((page) => page.hidden = page.id !== `tab-${button.dataset.tab}`);
+      });
+    });
+    $("adminLoginForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      try {
+        const data = await api("/admin/api/login", {
+          method: "POST",
+          body: JSON.stringify({
+            username: $("adminUsername").value.trim(),
+            password: $("adminPassword").value,
+          }),
+        });
+        adminSessionUser = data.username || $("adminUsername").value.trim();
+        $("adminPassword").value = "";
+        setLoginVisible(false);
+        notice("登录成功，正在加载运营数据。");
+        await refreshAll();
+      } catch (error) {
+        notice(error.message, true);
+      }
+    });
+    $("logoutAdmin").onclick = async () => {
+      try {
+        await api("/admin/api/logout", { method: "POST" });
+      } catch (_error) {
+        // 客户端只负责切回登录态，服务端 Cookie 会在成功时清理。
+      }
+      adminSessionUser = "";
+      setLoginVisible(true);
+      notice("已退出登录。");
+    };
+    $("refreshAll").onclick = refreshAll;
+    $("searchCustomers").onclick = refreshAll;
+    $("refreshOrders").onclick = refreshAll;
+    $("orderStatusFilter").onchange = refreshAll;
+    $("runBackup").onclick = async () => {
+      await api("/admin/api/backups/run", { method: "POST" });
+      await refreshAll();
+    };
+    $("createCustomer").onclick = async () => {
+      await api("/admin/api/customers", {
+        method: "POST",
+        body: JSON.stringify({
+          name: $("customerName").value.trim(),
+          phone: $("customerPhone").value.trim(),
+          email: $("customerEmail").value.trim(),
+          wechat: $("customerWechat").value.trim(),
+          company: $("customerCompany").value.trim(),
+          notes: $("customerNotes").value.trim(),
+          status: "active",
+        }),
+      });
+      ["customerName", "customerPhone", "customerEmail", "customerWechat", "customerCompany", "customerNotes"].forEach((id) => $(id).value = "");
+      await refreshAll();
+    };
+    $("createLicense").onclick = async () => {
+      const payload = {
+        customer_id: $("licenseCustomer").value,
+        plan: $("licensePlan").value,
+        max_devices: Number($("licenseMaxDevices").value || 1),
+        expires_at: $("licenseExpires").value.trim() || null,
+        feature_flags: $("licenseFeatures").value.split(",").map((item) => item.trim()).filter(Boolean),
+        credit_grant: Number($("licenseCreditGrant").value || 0),
+        notes: $("licenseNotes").value.trim(),
+      };
+      const created = await api("/admin/api/licenses", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+      $("newLicenseKey").hidden = false;
+      $("newLicenseKey").textContent = `请复制给客户，后台不会再次显示完整授权码：${created.license_key}`;
+      await refreshAll();
+    };
+    const planOptions = [
+      ["trial", "试用版"],
+      ["monthly_premium", "高级会员（月付）"],
+      ["monthly_diamond", "钻石会员（月付）"],
+      ["lifetime", "永久版"],
+      ["custom", "定制版"],
+    ];
+    $("licensePlan").innerHTML = planOptions.map(([value, label]) => `<option value="${value}">${label}</option>`).join("");
+    $("licensePlan").value = "monthly_premium";
+    $("licenseCreditGrant").value = "36000";
+    $("licenseCreditGrant").placeholder = "试用版1300；高级会员36000；钻石会员200000";
+    const planCredits = { trial: 1300, monthly: 36000, monthly_premium: 36000, monthly_diamond: 200000, yearly: 200000, lifetime: 0, custom: 0 };
+    $("licensePlan").addEventListener("change", () => {
+      $("licenseCreditGrant").value = String(planCredits[$("licensePlan").value] ?? 0);
+    });
+    $("uploadRelease").onclick = async () => {
+      const file = $("releaseFile").files[0];
+      if (!file) {
+        notice("请先选择安装包。", true);
+        return;
+      }
+      const form = new FormData();
+      form.append("version", $("releaseVersion").value.trim());
+      form.append("channel", $("releaseChannel").value);
+      form.append("platform", "windows");
+      form.append("changelog", $("releaseNotes").value.trim());
+      form.append("force_update", $("releaseForce").checked ? "true" : "false");
+      form.append("file", file);
+      await api("/admin/api/releases/upload", { method: "POST", body: form });
+      ["releaseVersion", "releaseNotes"].forEach((id) => $(id).value = "");
+      $("releaseFile").value = "";
+      $("releaseForce").checked = false;
+      await refreshAll();
+    };
+    async function bootstrapSession() {
+      try {
+        const me = await api("/admin/api/me");
+        adminSessionUser = me.username || "";
+        setLoginVisible(false);
+        await refreshAll();
+      } catch (_error) {
+        setLoginVisible(true);
+        $("notice").textContent = "请先登录运营后台。";
+      }
+    }
+    bootstrapSession();
+  </script>
+</body>
+</html>

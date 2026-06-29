@@ -1,0 +1,15 @@
+# 本地环境与密钥（勿提交）
+.env
+.venv/
+venv/
+myenv/
+*.egg-info/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+
+# 向量库持久化（可选；若你希望团队共享索引可改为提交）
+.faiss_index/
+uploads/
+generated/

@@ -1,0 +1,1060 @@
+{
+  "activePlatformId": "doubao_ark",
+  "activeModelId": "deepseek-v4-pro-260425",
+  "platforms": [
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "baseUrl": "https://api.openai.com/v1",
+      "apiKey": "",
+      "enabled": false,
+      "models": [
+        {
+          "id": "gpt-4o-mini",
+          "name": "GPT-4o mini",
+          "group": "GPT-4o",
+          "enabled": false
+        },
+        {
+          "id": "gpt-4o",
+          "name": "GPT-4o",
+          "group": "GPT-4o",
+          "enabled": false
+        }
+      ],
+      "docsUrl": "https://platform.openai.com/docs",
+      "icon": "/provider-icons/openai.png"
+    },
+    {
+      "id": "o3",
+      "name": "OpenAI O3",
+      "baseUrl": "https://api.openai.com/v1",
+      "apiKey": "",
+      "enabled": false,
+      "models": [
+        {
+          "id": "o3",
+          "name": "O3",
+          "group": "Reasoning",
+          "enabled": false
+        }
+      ],
+      "docsUrl": "https://platform.openai.com/docs",
+      "icon": "/provider-icons/openai.png"
+    },
+    {
+      "id": "ppio",
+      "name": "PPIO",
+      "baseUrl": "https://api.ppinfra.com/v3/openai",
+      "apiKey": "",
+      "enabled": false,
+      "models": [],
+      "docsUrl": "https://ppinfra.com",
+      "icon": "/provider-icons/ppio.ico"
+    },
+    {
+      "id": "gemini",
+      "name": "Gemini",
+      "baseUrl": "https://generativelanguage.googleapis.com/v1beta/openai",
+      "apiKey": "",
+      "enabled": false,
+      "models": [
+        {
+          "id": "gemini-1.5-flash",
+          "name": "Gemini 1.5 Flash",
+          "group": "Gemini 1.5",
+          "enabled": false
+        },
+        {
+          "id": "gemini-1.5-pro",
+          "name": "Gemini 1.5 Pro",
+          "group": "Gemini 1.5",
+          "enabled": false
+        },
+        {
+          "id": "gemini-2.0-flash",
+          "name": "Gemini 2.0 Flash",
+          "group": "Gemini 2.0",
+          "enabled": false
+        }
+      ],
+      "docsUrl": "https://ai.google.dev/gemini-api/docs/openai",
+      "icon": "/provider-icons/gemini.svg"
+    },
+    {
+      "id": "siliconflow",
+      "name": "SiliconFlow",
+      "baseUrl": "https://api.siliconflow.cn/v1",
+      "apiKey": "",
+      "enabled": false,
+      "models": [],
+      "docsUrl": "https://docs.siliconflow.cn",
+      "icon": "/provider-icons/siliconflow.ico"
+    },
+    {
+      "id": "gitee_ai",
+      "name": "Gitee AI",
+      "baseUrl": "https://ai.gitee.com/v1",
+      "apiKey": "",
+      "enabled": false,
+      "models": [],
+      "docsUrl": "https://ai.gitee.com",
+      "icon": "/provider-icons/gitee.ico"
+    },
+    {
+      "id": "github_models",
+      "name": "GitHub Models",
+      "baseUrl": "https://models.inference.ai.azure.com",
+      "apiKey": "",
+      "enabled": false,
+      "models": [],
+      "docsUrl": "https://docs.github.com/github-models",
+      "icon": "/provider-icons/github.ico"
+    },
+    {
+      "id": "baidu_qianfan",
+      "name": "百度千帆",
+      "baseUrl": "https://qianfan.baidubce.com/v2",
+      "apiKey": "",
+      "enabled": false,
+      "models": [
+        {
+          "id": "ernie-4.0-turbo-8k",
+          "name": "ERNIE 4.0 Turbo",
+          "group": "ERNIE",
+          "enabled": false
+        },
+        {
+          "id": "ernie-3.5-8k",
+          "name": "ERNIE 3.5",
+          "group": "ERNIE",
+          "enabled": false
+        }
+      ],
+      "docsUrl": "https://cloud.baidu.com/doc/WENXINWORKSHOP/index.html",
+      "icon": "/provider-icons/baidu.ico"
+    },
+    {
+      "id": "doubao_ark",
+      "name": "豆包/火山方舟",
+      "baseUrl": "https://ark.cn-beijing.volces.com/api/v3",
+      "apiKey": "",
+      "enabled": true,
+      "models": [
+        {
+          "id": "doubao-seed-1-6-250615",
+          "name": "Doubao Seed 1.6",
+          "group": "Doubao",
+          "enabled": false
+        },
+        {
+          "id": "doubao-1-5-pro-32k-250115",
+          "name": "Doubao 1.5 Pro 32K",
+          "group": "Doubao",
+          "enabled": false
+        },
+        {
+          "id": "doubao-lite-128k-240428",
+          "name": "doubao-lite-128k-240428",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-128k-240515",
+          "name": "doubao-pro-128k-240515",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-lite-4k-240328",
+          "name": "doubao-lite-4k-240328",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-lite-32k-240428",
+          "name": "doubao-lite-32k-240428",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-4k-240515",
+          "name": "doubao-pro-4k-240515",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-lite-4k-character-240515",
+          "name": "doubao-lite-4k-character-240515",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-embedding-text-240515",
+          "name": "doubao-embedding-text-240515",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "mistral-7b-instruct-v0.2",
+          "name": "mistral-7b-instruct-v0.2",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-4k-character-240515",
+          "name": "doubao-pro-4k-character-240515",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-4k-functioncall-240515",
+          "name": "doubao-pro-4k-functioncall-240515",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-lite-4k-pretrain-character-240516",
+          "name": "doubao-lite-4k-pretrain-character-240516",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-32k-character-240528",
+          "name": "doubao-pro-32k-character-240528",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-4k-browsing-240524",
+          "name": "doubao-pro-4k-browsing-240524",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-32k-functioncall-240515",
+          "name": "doubao-pro-32k-functioncall-240515",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-4k-functioncall-240615",
+          "name": "doubao-pro-4k-functioncall-240615",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-32k-browsing-240615",
+          "name": "doubao-pro-32k-browsing-240615",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-32k-240615",
+          "name": "doubao-pro-32k-240615",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-lite-32k-240628",
+          "name": "doubao-lite-32k-240628",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-128k-240628",
+          "name": "doubao-pro-128k-240628",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-embedding-text-240715",
+          "name": "doubao-embedding-text-240715",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-4k-character-240728",
+          "name": "doubao-pro-4k-character-240728",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-32k-functioncall-240815",
+          "name": "doubao-pro-32k-functioncall-240815",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-32k-240828",
+          "name": "doubao-pro-32k-240828",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-lite-4k-character-240828",
+          "name": "doubao-lite-4k-character-240828",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-32k-character-240828",
+          "name": "doubao-pro-32k-character-240828",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-lite-32k-240828",
+          "name": "doubao-lite-32k-240828",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-lite-128k-240828",
+          "name": "doubao-lite-128k-240828",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-32k-browsing-240828",
+          "name": "doubao-pro-32k-browsing-240828",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-32k-functioncall-preview",
+          "name": "doubao-pro-32k-functioncall-preview",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-embedding-large-text-240915",
+          "name": "doubao-embedding-large-text-240915",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-lite-32k-character-241015",
+          "name": "doubao-lite-32k-character-241015",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-32k-functioncall-241028",
+          "name": "doubao-pro-32k-functioncall-241028",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-32k-browsing-241115",
+          "name": "doubao-pro-32k-browsing-241115",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-vision-pro-32k-241028",
+          "name": "doubao-vision-pro-32k-241028",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-vision-lite-32k-241015",
+          "name": "doubao-vision-lite-32k-241015",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seaweed-241128",
+          "name": "doubao-seaweed-241128",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-256k-241115",
+          "name": "doubao-pro-256k-241115",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-32k-character-241215",
+          "name": "doubao-pro-32k-character-241215",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-pro-32k-241215",
+          "name": "doubao-pro-32k-241215",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-1-5-lite-32k-250115",
+          "name": "doubao-1-5-lite-32k-250115",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-1-5-vision-pro-32k-250115",
+          "name": "doubao-1-5-vision-pro-32k-250115",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-embedding-vision-241215",
+          "name": "doubao-embedding-vision-241215",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-1-5-pro-256k-250115",
+          "name": "doubao-1-5-pro-256k-250115",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "deepseek-v3-241226",
+          "name": "deepseek-v3-241226",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "deepseek-r1-distill-qwen-7b-250120",
+          "name": "deepseek-r1-distill-qwen-7b-250120",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "deepseek-r1-distill-qwen-32b-250120",
+          "name": "deepseek-r1-distill-qwen-32b-250120",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "deepseek-r1-250120",
+          "name": "deepseek-r1-250120",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-1-5-pro-32k-character-250228",
+          "name": "doubao-1-5-pro-32k-character-250228",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-1.5-vision-lite-250315",
+          "name": "doubao-1.5-vision-lite-250315",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "deepseek-v3-250324",
+          "name": "deepseek-v3-250324",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-1.5-vision-pro-250328",
+          "name": "doubao-1.5-vision-pro-250328",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-lite-32k-character-250228",
+          "name": "doubao-lite-32k-character-250228",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-1.5-ui-tars-250328",
+          "name": "doubao-1.5-ui-tars-250328",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-embedding-vision-250328",
+          "name": "doubao-embedding-vision-250328",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-1-5-thinking-pro-250415",
+          "name": "doubao-1-5-thinking-pro-250415",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "wan2-1-14b-i2v-250225",
+          "name": "wan2-1-14b-i2v-250225",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "wan2-1-14b-t2v-250225",
+          "name": "wan2-1-14b-t2v-250225",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-1-5-thinking-pro-m-250415",
+          "name": "doubao-1-5-thinking-pro-m-250415",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seedance-1-0-lite-i2v-250428",
+          "name": "doubao-seedance-1-0-lite-i2v-250428",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seedance-1-0-lite-t2v-250428",
+          "name": "doubao-seedance-1-0-lite-t2v-250428",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seedream-3-0-t2i-250415",
+          "name": "doubao-seedream-3-0-t2i-250415",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "wan2-1-14b-flf2v-250417",
+          "name": "wan2-1-14b-flf2v-250417",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-1-5-thinking-vision-pro-250428",
+          "name": "doubao-1-5-thinking-vision-pro-250428",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-1-5-thinking-pro-m-250428",
+          "name": "doubao-1-5-thinking-pro-m-250428",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-embedding-large-text-250515",
+          "name": "doubao-embedding-large-text-250515",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-1-5-ui-tars-250428",
+          "name": "doubao-1-5-ui-tars-250428",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "deepseek-r1-250528",
+          "name": "deepseek-r1-250528",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-1-6-flash-250615",
+          "name": "doubao-seed-1-6-flash-250615",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-1-6-thinking-250615",
+          "name": "doubao-seed-1-6-thinking-250615",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seedance-1-0-pro-250528",
+          "name": "doubao-seedance-1-0-pro-250528",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-embedding-vision-250615",
+          "name": "doubao-embedding-vision-250615",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-1-6-thinking-250715",
+          "name": "doubao-seed-1-6-thinking-250715",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-1-5-pro-32k-character-250715",
+          "name": "doubao-1-5-pro-32k-character-250715",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seededit-3-0-i2i-250628",
+          "name": "doubao-seededit-3-0-i2i-250628",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-1-6-flash-250715",
+          "name": "doubao-seed-1-6-flash-250715",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "kimi-k2-250711",
+          "name": "kimi-k2-250711",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-1-6-vision-250815",
+          "name": "doubao-seed-1-6-vision-250815",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "deepseek-v3-1-250821",
+          "name": "deepseek-v3-1-250821",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-1-6-flash-250828",
+          "name": "doubao-seed-1-6-flash-250828",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "glm-4-5-air-20250728",
+          "name": "glm-4-5-air-20250728",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "qwen3-8b-20250429",
+          "name": "qwen3-8b-20250429",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "qwen3-32b-20250429",
+          "name": "qwen3-32b-20250429",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "qwen2-5-72b-20240919",
+          "name": "qwen2-5-72b-20240919",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seedream-4-0-250828",
+          "name": "doubao-seedream-4-0-250828",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "kimi-k2-250905",
+          "name": "kimi-k2-250905",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-translation-250915",
+          "name": "doubao-seed-translation-250915",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "deepseek-v3-1-terminus",
+          "name": "deepseek-v3-1-terminus",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-smart-router-250928",
+          "name": "doubao-smart-router-250928",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-1-6-251015",
+          "name": "doubao-seed-1-6-251015",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seedance-1-0-pro-fast-251015",
+          "name": "doubao-seedance-1-0-pro-fast-251015",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-1-6-lite-251015",
+          "name": "doubao-seed-1-6-lite-251015",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed3d-1-0-250928",
+          "name": "doubao-seed3d-1-0-250928",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "kimi-k2-thinking-251104",
+          "name": "kimi-k2-thinking-251104",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-code-preview-251028",
+          "name": "doubao-seed-code-preview-251028",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "qwen3-0-6b-20250429",
+          "name": "qwen3-0-6b-20250429",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "qwen3-14b-20250429",
+          "name": "qwen3-14b-20250429",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seedream-4-5-251128",
+          "name": "doubao-seedream-4-5-251128",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-embedding-vision-251215",
+          "name": "doubao-embedding-vision-251215",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "deepseek-v3-2-251201",
+          "name": "deepseek-v3-2-251201",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seedance-1-5-pro-251215",
+          "name": "doubao-seedance-1-5-pro-251215",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "glm-4-7-251222",
+          "name": "glm-4-7-251222",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-1-8-251228",
+          "name": "doubao-seed-1-8-251228",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-character-251128",
+          "name": "doubao-seed-character-251128",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-2-0-lite-260215",
+          "name": "doubao-seed-2-0-lite-260215",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seedance-2-0-260128",
+          "name": "doubao-seedance-2-0-260128",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seedream-5-0-260128",
+          "name": "doubao-seedream-5-0-260128",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-2-0-mini-260215",
+          "name": "doubao-seed-2-0-mini-260215",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-2-0-pro-260215",
+          "name": "doubao-seed-2-0-pro-260215",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seedance-2-0-fast-260128",
+          "name": "doubao-seedance-2-0-fast-260128",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-2-0-code-preview-260215",
+          "name": "doubao-seed-2-0-code-preview-260215",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "hyper3d-gen2-260112",
+          "name": "hyper3d-gen2-260112",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "hitem3d-2-0-251223",
+          "name": "hitem3d-2-0-251223",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed3d-2-0-260328",
+          "name": "doubao-seed3d-2-0-260328",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-2-0-mini-260428",
+          "name": "doubao-seed-2-0-mini-260428",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-2-0-lite-260428",
+          "name": "doubao-seed-2-0-lite-260428",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "deepseek-v4-pro-260425",
+          "name": "deepseek-v4-pro-260425",
+          "group": "Remote",
+          "enabled": true
+        },
+        {
+          "id": "deepseek-v4-flash-260425",
+          "name": "deepseek-v4-flash-260425",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seedance-2-0-mini-260615",
+          "name": "doubao-seedance-2-0-mini-260615",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-2-1-pro-260628",
+          "name": "doubao-seed-2-1-pro-260628",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-2-1-turbo-260628",
+          "name": "doubao-seed-2-1-turbo-260628",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-character-260628",
+          "name": "doubao-seed-character-260628",
+          "group": "Remote",
+          "enabled": false
+        },
+        {
+          "id": "doubao-seed-evolving",
+          "name": "doubao-seed-evolving",
+          "group": "Remote",
+          "enabled": false
+        }
+      ],
+      "docsUrl": "https://www.volcengine.com/docs/82379",
+      "icon": "/provider-icons/volcengine.png"
+    },
+    {
+      "id": "aliyun_bailian",
+      "name": "阿里百炼",
+      "baseUrl": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+      "apiKey": "",
+      "enabled": false,
+      "models": [
+        {
+          "id": "qwen-plus",
+          "name": "Qwen Plus",
+          "group": "Qwen",
+          "enabled": false
+        },
+        {
+          "id": "qwen-turbo",
+          "name": "Qwen Turbo",
+          "group": "Qwen",
+          "enabled": false
+        },
+        {
+          "id": "qwen-max",
+          "name": "Qwen Max",
+          "group": "Qwen",
+          "enabled": false
+        }
+      ],
+      "docsUrl": "https://help.aliyun.com/zh/model-studio/",
+      "icon": "/provider-icons/aliyun.ico"
+    },
+    {
+      "id": "tencent_hunyuan",
+      "name": "腾讯混元",
+      "baseUrl": "https://api.hunyuan.cloud.tencent.com/v1",
+      "apiKey": "",
+      "enabled": false,
+      "models": [
+        {
+          "id": "hunyuan-turbos-latest",
+          "name": "Hunyuan TurboS",
+          "group": "Hunyuan",
+          "enabled": false
+        },
+        {
+          "id": "hunyuan-lite",
+          "name": "Hunyuan Lite",
+          "group": "Hunyuan",
+          "enabled": false
+        }
+      ],
+      "docsUrl": "https://cloud.tencent.com/document/product/1729",
+      "icon": "/provider-icons/tencent.ico"
+    },
+    {
+      "id": "zhipu_glm",
+      "name": "智谱 GLM",
+      "baseUrl": "https://open.bigmodel.cn/api/paas/v4",
+      "apiKey": "",
+      "enabled": false,
+      "models": [
+        {
+          "id": "glm-4.5",
+          "name": "GLM-4.5",
+          "group": "GLM",
+          "enabled": false
+        },
+        {
+          "id": "glm-4.5-air",
+          "name": "GLM-4.5 Air",
+          "group": "GLM",
+          "enabled": false
+        }
+      ],
+      "docsUrl": "https://docs.bigmodel.cn",
+      "icon": "/provider-icons/zhipu.png"
+    },
+    {
+      "id": "moonshot_kimi",
+      "name": "Moonshot Kimi",
+      "baseUrl": "https://api.moonshot.cn/v1",
+      "apiKey": "",
+      "enabled": false,
+      "models": [
+        {
+          "id": "moonshot-v1-8k",
+          "name": "Moonshot v1 8K",
+          "group": "Moonshot",
+          "enabled": false
+        },
+        {
+          "id": "moonshot-v1-32k",
+          "name": "Moonshot v1 32K",
+          "group": "Moonshot",
+          "enabled": false
+        },
+        {
+          "id": "moonshot-v1-128k",
+          "name": "Moonshot v1 128K",
+          "group": "Moonshot",
+          "enabled": false
+        }
+      ],
+      "docsUrl": "https://platform.moonshot.cn/docs",
+      "icon": "/provider-icons/moonshot.ico"
+    },
+    {
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "baseUrl": "https://api.deepseek.com",
+      "apiKey": "",
+      "enabled": false,
+      "models": [
+        {
+          "id": "deepseek-chat",
+          "name": "DeepSeek Chat",
+          "group": "DeepSeek",
+          "enabled": false
+        },
+        {
+          "id": "deepseek-reasoner",
+          "name": "DeepSeek Reasoner",
+          "group": "DeepSeek",
+          "enabled": false
+        }
+      ],
+      "docsUrl": "https://api-docs.deepseek.com",
+      "icon": "/provider-icons/deepseek.ico"
+    },
+    {
+      "id": "newapi_gateway",
+      "name": "NewAPI / 自部署模型网关",
+      "baseUrl": "http://127.0.0.1:3000/v1",
+      "apiKey": "",
+      "enabled": false,
+      "models": [
+        {
+          "id": "deepseek-chat",
+          "name": "DeepSeek Chat",
+          "group": "DeepSeek",
+          "enabled": false
+        },
+        {
+          "id": "qwen-plus",
+          "name": "Qwen Plus",
+          "group": "Qwen",
+          "enabled": false
+        },
+        {
+          "id": "gpt-4o-mini",
+          "name": "GPT-4o mini",
+          "group": "OpenAI",
+          "enabled": false
+        }
+      ],
+      "docsUrl": "https://github.com/QuantumNous/new-api",
+      "icon": "/provider-icons/custom.svg"
+    },
+    {
+      "id": "custom",
+      "name": "Custom",
+      "baseUrl": "",
+      "apiKey": "",
+      "enabled": false,
+      "models": [],
+      "docsUrl": "",
+      "icon": "/provider-icons/custom.svg"
+    }
+  ],
+  "localModels": []
+}

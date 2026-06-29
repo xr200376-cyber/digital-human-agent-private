@@ -1,0 +1,269 @@
+{
+  "license_summary": "用户提供的背景音乐素材。发布视频前请确认拥有对应使用和分发授权。",
+  "tracks": [
+    {
+      "id": "energetic-background",
+      "title": "Energetic Background",
+      "title_cn": "激励背景",
+      "mood": "激励、上进、品牌口播",
+      "filename": "energetic-background.mp3",
+      "url": "/bgm/energetic-background.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "future-road",
+      "title": "Future Road",
+      "title_cn": "通往未来",
+      "mood": "科技、未来、企业介绍",
+      "filename": "future-road.mp3",
+      "url": "/bgm/future-road.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "warm-talk",
+      "title": "Warm Talk",
+      "title_cn": "温和访谈",
+      "mood": "温和、访谈、知识长口播",
+      "filename": "warm-talk.mp3",
+      "url": "/bgm/warm-talk.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "high-energy",
+      "title": "High Energy",
+      "title_cn": "精力充沛",
+      "mood": "积极、活力、销售转化",
+      "filename": "high-energy.mp3",
+      "url": "/bgm/high-energy.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "light-and-shadow",
+      "title": "Light And Shadow",
+      "title_cn": "光与影",
+      "mood": "质感、故事、产品展示",
+      "filename": "light-and-shadow.mp3",
+      "url": "/bgm/light-and-shadow.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "bloom",
+      "title": "Bloom",
+      "title_cn": "Bloom",
+      "mood": "清新、舒展、生活方式",
+      "filename": "bloom.mp3",
+      "url": "/bgm/bloom.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "light-bgm",
+      "title": "Light BGM",
+      "title_cn": "轻快bgm",
+      "mood": "轻快、日常、产品介绍",
+      "filename": "light-bgm.mp3",
+      "url": "/bgm/light-bgm.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "love-you",
+      "title": "Love You",
+      "title_cn": "love you",
+      "mood": "柔和、情绪、生活口播",
+      "filename": "love-you.mp3",
+      "url": "/bgm/love-you.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "old-school",
+      "title": "Old School",
+      "title_cn": "old school",
+      "mood": "复古、节奏、观点表达",
+      "filename": "old-school.mp3",
+      "url": "/bgm/old-school.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "get-the-grove",
+      "title": "Get The Grove",
+      "title_cn": "get the grove",
+      "mood": "律动、轻松、短视频口播",
+      "filename": "get-the-grove.mp3",
+      "url": "/bgm/get-the-grove.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "busy-crowd",
+      "title": "Busy Crowd",
+      "title_cn": "忙碌的人山人海",
+      "mood": "城市、忙碌、商业叙事",
+      "filename": "busy-crowd.mp3",
+      "url": "/bgm/busy-crowd.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "funky-beat",
+      "title": "Funky Beat",
+      "title_cn": "funky beat",
+      "mood": "律动、潮流、年轻化内容",
+      "filename": "funky-beat.mp3",
+      "url": "/bgm/funky-beat.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "funky-town",
+      "title": "Funky Town",
+      "title_cn": "funky town",
+      "mood": "活泼、城市、探店口播",
+      "filename": "funky-town.mp3",
+      "url": "/bgm/funky-town.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "funky-it-up",
+      "title": "Funky It Up",
+      "title_cn": "funky it up",
+      "mood": "轻松、节奏、种草内容",
+      "filename": "funky-it-up.mp3",
+      "url": "/bgm/funky-it-up.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "time-to-pretend",
+      "title": "Time To Pretend",
+      "title_cn": "time to pretend",
+      "mood": "轻快、过渡、短口播",
+      "filename": "time-to-pretend.mp3",
+      "url": "/bgm/time-to-pretend.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "after-hours",
+      "title": "After Hours",
+      "title_cn": "after hours",
+      "mood": "夜晚、质感、情绪表达",
+      "filename": "after-hours.mp3",
+      "url": "/bgm/after-hours.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "fantasy-daylight",
+      "title": "Fantasy Daylight",
+      "title_cn": "虚幻白昼",
+      "mood": "梦幻、氛围、品牌故事",
+      "filename": "fantasy-daylight.mp3",
+      "url": "/bgm/fantasy-daylight.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "butterfly-step",
+      "title": "Butterfly Step",
+      "title_cn": "蝴蝶步",
+      "mood": "轻盈、节奏、生活种草",
+      "filename": "butterfly-step.mp3",
+      "url": "/bgm/butterfly-step.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "fast-rhythm",
+      "title": "Fast Rhythm",
+      "title_cn": "环快节奏",
+      "mood": "快速、动感、促销口播",
+      "filename": "fast-rhythm.mp3",
+      "url": "/bgm/fast-rhythm.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "maybach-march",
+      "title": "Maybach March",
+      "title_cn": "迈巴赫进行曲",
+      "mood": "大气、行进感、汽车口播",
+      "filename": "maybach-march.mp3",
+      "url": "/bgm/maybach-march.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "fashion-dynamic",
+      "title": "Fashion Dynamic",
+      "title_cn": "时尚动感",
+      "mood": "时尚、动感、产品展示",
+      "filename": "fashion-dynamic.mp3",
+      "url": "/bgm/fashion-dynamic.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "epic-impact",
+      "title": "Epic Impact",
+      "title_cn": "大气震撼",
+      "mood": "震撼、品牌、发布会",
+      "filename": "epic-impact.mp3",
+      "url": "/bgm/epic-impact.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "mustang-march",
+      "title": "Mustang March",
+      "title_cn": "野马进行曲",
+      "mood": "节奏、行进感、汽车口播",
+      "filename": "mustang-march.mp3",
+      "url": "/bgm/mustang-march.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    },
+    {
+      "id": "cheerful-audio-1",
+      "title": "Cheerful Audio 1",
+      "title_cn": "欢快音频1",
+      "mood": "欢快、轻松、生活口播",
+      "filename": "cheerful-audio-1.mp3",
+      "url": "/bgm/cheerful-audio-1.mp3",
+      "source_url": "",
+      "artist": "用户提供",
+      "license": "用户提供"
+    }
+  ]
+}

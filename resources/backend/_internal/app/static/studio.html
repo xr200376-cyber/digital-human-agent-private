@@ -1,0 +1,1462 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>雄图IP智能体</title>
+    <link rel="stylesheet" href="/studio.css?v=20260626-bgm-picker-select-fix" />
+    <!-- legacy-cache-markers: /studio.css?v=20260617-bright-render-button /studio.js?v=20260617-bright-render-button /studio.css?v=20260617-cover-keywords /studio.js?v=20260617-cover-keywords /studio.css?v=20260617-subtitle-style /studio.js?v=20260617-subtitle-style /studio.js?v=20260617-subtitle-compact /studio.js?v=20260617-subtitle-drag-layer /studio.css?v=20260617-separate-voice-model /studio.js?v=20260617-separate-voice-model /studio.css?v=20260617-hide-publish-readiness-nav /studio.js?v=20260617-hide-publish-readiness-nav /studio.js?v=20260618-hide-remix-json /studio.css?v=20260618-bgm-export-row /studio.js?v=20260618-bgm-export-row /studio.css?v=20260618-hide-bgm-hint /studio.js?v=20260618-hide-bgm-hint /studio.css?v=20260618-force-hide-cover-report /studio.js?v=20260618-force-hide-cover-report /studio.css?v=20260618-publish-platform-row /studio.js?v=20260618-publish-platform-row /studio.css?v=20260620-remix-filter-script /studio.js?v=20260620-remix-filter-script /studio.css?v=20260620-local-tags /studio.js?v=20260620-local-tags /studio.css?v=20260620-llm-tags /studio.js?v=20260620-llm-tags /studio.css?v=20260620-hide-cover-download /studio.css?v=20260620-inline-reference-link /studio.js?v=20260620-inline-reference-link /studio.css?v=20260620-script-header-rewrite /studio.css?v=20260620-script-title-rewrite /studio.css?v=20260620-input-context-menu /studio.js?v=20260620-input-context-menu /studio.css?v=20260620-one-screen-workbench /studio.css?v=20260620-tags-field-space /studio.js?v=20260620-douyin-manual-publish /studio.js?v=20260620-hide-schedule-publish /studio.css?v=20260620-cover-reference-templates /studio.js?v=20260620-cover-reference-templates /studio.js?v=20260620-script-voice-fix -->
+  </head>
+  <body>
+    <main class="shell app-shell">
+      <div style="display: none" aria-hidden="true">
+        创建数字人 生成头像 选定头像 克隆声音 试听声音 创建视频任务 保存脚本 渲染视频 查看进度 成片预览
+        下载成片 MP4 下载剪映草稿 下载发布包 预览成片 下载质检报告 生成成片
+      </div>
+      <div id="desktopLicenseGate" class="desktop-license-gate hidden" role="dialog" aria-modal="true" aria-labelledby="desktopLicenseTitle">
+        <section class="desktop-license-panel">
+          <h2 id="desktopLicenseTitle">软件激活</h2>
+          <p>请输入授权码完成激活。首次激活后会绑定当前电脑，后续启动会自动校验。</p>
+          <label>
+            授权码
+            <input id="desktopLicenseKeyInput" type="password" placeholder="请输入授权码" autocomplete="off" />
+          </label>
+          <div class="desktop-license-actions">
+            <button id="desktopLicenseActivateBtn" type="button">激活软件</button>
+            <button id="desktopLicenseRefreshBtn" class="ghost-button" type="button">重新检测</button>
+          </div>
+          <button id="desktopLicenseDeactivateBtn" class="desktop-license-link" type="button">清除本机授权</button>
+          <div id="desktopLicenseStatusText" class="desktop-license-status">正在校验授权...</div>
+        </section>
+      </div>
+      <header class="topbar">
+        <div>
+          <h1>雄图IP智能体</h1>
+          <p>面向中国消费者和内容团队的数字人短视频制作工具</p>
+        </div>
+        <div class="status-strip">
+          <span id="healthBadge">检查中</span>
+          <button id="creditBalanceBtn" class="credit-balance-button" type="button" hidden>积分 --</button>
+          <span id="taskStatus">未创建任务</span>
+          <button id="themeToggleBtn" class="ghost-button theme-toggle" type="button">换肤 浅色</button>
+        </div>
+      </header>
+
+      <div id="creditUsageDialog" class="credit-usage-dialog hidden" role="dialog" aria-modal="true" aria-labelledby="creditUsageTitle">
+        <section class="credit-usage-panel">
+          <header>
+            <h2 id="creditUsageTitle">积分消耗</h2>
+            <button id="closeCreditUsageBtn" class="mini-link" type="button">关闭</button>
+          </header>
+          <div class="credit-usage-summary">
+            <div><span>当前积分</span><strong id="creditUsageBalance">--</strong></div>
+            <div><span>套餐赠送</span><strong id="creditUsageGrant">--</strong></div>
+            <div><span>累计消耗</span><strong id="creditUsageUsed">--</strong></div>
+          </div>
+          <div id="creditUsageList" class="credit-usage-list">正在读取积分记录...</div>
+        </section>
+      </div>
+
+      <div class="studio-layout">
+        <aside class="sidebar app-sidebar" aria-label="工作台页面">
+          <nav class="page-nav">
+            <button class="nav-item active" type="button" data-nav="source-video-human">工作台</button>
+            <button class="nav-item" type="button" data-nav="model-center">模型设置</button>
+            <button class="nav-item" type="button" data-nav="projects">资产管理</button>
+          </nav>
+        </aside>
+
+        <section class="view-stack app-content">
+          <section class="view" data-view="model-center">
+            <div class="page-head">
+              <h2>模型设置</h2>
+              <div class="actions compact page-actions">
+                <button id="refreshModelsBtn" type="button">刷新</button>
+                <button id="openLlmSettingsBtn" type="button">配置云模型</button>
+                <button id="addLocalLlmModelBtn" type="button">本地模型</button>
+              </div>
+            </div>
+            <section class="panel">
+              <h3>一键方案</h3>
+              <label>
+                推荐方案
+                <select id="modelPresetSelect">
+                  <option value="hifly_one_video">飞影一体化：上传视频直接做数字人</option>
+                  <option value="cloud_quality">云端高质量：阿里云 + LatentSync + Pixelle</option>
+                  <option value="low_cost_preview">低成本预览：Edge TTS + MuseTalk</option>
+                  <option value="syncso_lipsync">Sync.so 口型同步</option>
+                </select>
+              </label>
+              <div class="actions compact">
+                <button id="applyModelPresetBtn" type="button">套用方案</button>
+                <button id="validateModelSelectionBtn" type="button">一键校验</button>
+              </div>
+              <p class="hint">真实生成仍需勾选付费确认；这里仅保存模型路线和配置开关。</p>
+            </section>
+            <section class="panel">
+              <h3>自由选择模型</h3>
+              <div class="row">
+                <label>
+                  声音模型
+                  <select id="voiceModelSelect"></select>
+                </label>
+                <label>
+                  数字人模型
+                  <select id="digitalHumanModelSelect"></select>
+                </label>
+              </div>
+              <div class="row">
+                <label>
+                  脚本模型
+                  <select id="scriptModelSelect"></select>
+                </label>
+                <label>
+                  导出方式
+                  <select id="exportModelSelect"></select>
+                </label>
+              </div>
+              <label>
+                质量模式
+                <select id="qualityModeSelect"></select>
+              </label>
+              <div class="actions compact">
+                <button id="saveModelSelectionBtn" type="button">保存选择</button>
+                <button id="loadModelSelectionBtn" type="button">加载当前选择</button>
+              </div>
+            </section>
+            <section class="panel wide" id="digitalHumanProviderConfigCard">
+              <h3>数字人模型配置</h3>
+              <p class="hint">这里只配置平台、API 地址和 API Key；上面的数字人模型仍由你手动选择并校验。</p>
+              <label>
+                平台
+                <select id="digitalHumanProviderSelect">
+                  <option value="hifly">飞影 API</option>
+                  <option value="baidu_xiling">百度曦灵</option>
+                  <option value="aliyun_bailian_digital_human">阿里百炼数字人</option>
+                  <option value="omnihuman">豆包/火山 OmniHuman</option>
+                  <option value="tavus">Tavus</option>
+                  <option value="syncso">Sync.so</option>
+                  <option value="fal_musetalk">fal.ai MuseTalk</option>
+                  <option value="fal_latentsync">fal.ai LatentSync</option>
+                </select>
+              </label>
+              <div class="row">
+                <label>
+                  API 地址
+                  <input id="digitalHumanProviderBaseUrl" placeholder="https://hfw-api.hifly.cc" autocomplete="off" />
+                </label>
+                <label>
+                  API Key
+                  <input id="digitalHumanProviderApiKey" type="password" placeholder="留空则保留已保存 Key" autocomplete="off" />
+                </label>
+              </div>
+              <div class="actions compact">
+                <button id="saveDigitalHumanProviderConfigBtn" type="button">保存配置</button>
+                <button id="checkDigitalHumanProviderConfigBtn" type="button">检查当前选择</button>
+              </div>
+              <pre id="digitalHumanProviderConfigStatus" class="json-box compact-json">等待配置。</pre>
+            </section>
+            <section class="panel wide" id="objectStorageConfigCard">
+              <h3>对象存储自动上传</h3>
+              <p class="hint">用于把 clean_voice_sample.wav 自动上传成云端 API 可访问的公网 URL。</p>
+              <label>
+                平台
+                <select id="objectStorageBackendSelect">
+                  <option value="local">关闭自动上传</option>
+                  <option value="aliyun_oss">阿里云 OSS</option>
+                  <option value="tencent_cos">腾讯云 COS</option>
+                  <option value="public_copy">已有公网目录</option>
+                </select>
+              </label>
+              <div class="row">
+                <label>
+                  公网访问地址
+                  <input id="objectStoragePublicBaseUrl" placeholder="https://cdn.example.com/aivo" autocomplete="off" />
+                </label>
+                <label>
+                  Bucket
+                  <input id="objectStorageBucket" placeholder="bucket-name" autocomplete="off" />
+                </label>
+              </div>
+              <div class="row">
+                <label>
+                  Endpoint / Region
+                  <input id="objectStorageEndpointOrRegion" placeholder="OSS Endpoint 或 COS Region" autocomplete="off" />
+                </label>
+                <label>
+                  AccessKey ID / SecretId
+                  <input id="objectStorageAccessKeyId" placeholder="留空则保留已保存 ID" autocomplete="off" />
+                </label>
+              </div>
+              <label>
+                AccessKey Secret / SecretKey
+                <input id="objectStorageSecretAccessKey" type="password" placeholder="留空则保留已保存 Secret" autocomplete="off" />
+              </label>
+              <div class="actions compact">
+                <button id="saveObjectStorageConfigBtn" type="button">保存自动上传</button>
+                <button id="checkObjectStorageConfigBtn" type="button">检查自动上传</button>
+              </div>
+              <pre id="objectStorageConfigStatus" class="json-box compact-json">等待配置。</pre>
+            </section>
+            <section class="panel wide">
+              <h3>模型状态</h3>
+              <pre id="modelStatusBox" class="json-box">等待刷新模型。</pre>
+            </section>
+          </section>
+          <section class="view" data-view="projects">
+            <div class="page-head">
+              <h2>资产管理</h2>
+              <button id="refreshProjectsBtn" type="button">刷新资产</button>
+            </div>
+            <form id="studioForm" hidden aria-hidden="true">
+              <input id="projectName" value="默认资产库" autocomplete="off" />
+              <input id="projectId" value="project_demo" autocomplete="off" />
+              <select id="projectSelect"></select>
+            </form>
+            <section class="panel wide asset-hub-panel">
+              <div class="asset-hub-title">
+                <h3>视频小工具</h3>
+                <p>AI处理工具合集</p>
+              </div>
+              <div class="asset-tool-grid">
+                <button class="asset-tool-card" type="button" data-go="clone-avatar">
+                  <span class="asset-tool-icon" aria-hidden="true">形</span>
+                  <strong>克隆形象</strong>
+                  <span>上传人物素材，AI 学习形象特征并生成专属数字分身</span>
+                  <span>适合统一口播、短剧与品牌人物形象</span>
+                </button>
+                <button class="asset-tool-card" type="button" data-go="voice-profiles">
+                  <span class="asset-tool-icon" aria-hidden="true">声</span>
+                  <strong>克隆声音</strong>
+                  <span>上传或录音声音样本，生成可复用的专属音色</span>
+                  <span>支持用于批量文案、口播与多场景声音资产</span>
+                </button>
+                <button class="asset-tool-card" type="button" data-go="script-rewrite">
+                  <span class="asset-tool-icon" aria-hidden="true">文</span>
+                  <strong>文案改写</strong>
+                  <span>AI 智能改写提取文案，一键生成多版差异化内容</span>
+                  <span>直接复用到数字人口播视频制作</span>
+                </button>
+              </div>
+            </section>
+          </section>
+
+          <section class="view" data-view="clone-avatar">
+            <div class="page-head asset-detail-head">
+              <button class="ghost-button" type="button" data-go="projects">← 返回</button>
+              <h2>克隆形象</h2>
+              <button id="refreshCloneAvatarBtn" type="button">刷新</button>
+            </div>
+            <div class="asset-detail-layout">
+              <section class="panel asset-create-panel">
+                <h3>创建形象</h3>
+                <p class="hint">上传一段清晰人物视频，生成可复用的数字形象。</p>
+                <label>
+                  形象名称
+                  <input id="sourceVideoHumanName" value="源视频数字人" placeholder="请输入形象名称" autocomplete="off" />
+                </label>
+                <h4 class="asset-field-title">上传视频</h4>
+                <label id="sourceVideoDropZone" class="upload-drop avatar-upload-drop">
+                  <input id="sourceVideoFile" type="file" accept="video/*" />
+                  <span class="upload-icon" aria-hidden="true">↑</span>
+                  <strong>点击或拖拽上传视频</strong>
+                  <span id="sourceVideoDropHint">建议单人正脸出镜，光线充足，避免遮挡。微信里的视频请先保存到本地文件夹后再拖入。</span>
+                </label>
+                <div class="asset-tip">
+                  <strong>素材建议</strong>
+                  <span>请使用 10-60 秒、画面稳定、人物完整露出的原始视频。多人同框、强滤镜、遮挡脸部会影响克隆效果。</span>
+                </div>
+                <div class="actions compact">
+                  <button id="sourceVideoPrepareBtn" type="button">立即克隆</button>
+                </div>
+                <p class="hint">每次点击立即克隆都会新增一条历史形象，不会覆盖当前选中的形象。</p>
+                <label class="checkline clone-voice-option">
+                  <input id="sourceVideoCloneVoice" type="checkbox" />
+                  同时克隆声音
+                </label>
+                <p class="hint clone-voice-hint">勾选后会从上传视频中提取声音，并在「克隆声音」里新增一条历史声音；真实云端克隆会消耗服务额度。</p>
+              </section>
+              <section class="panel asset-history-panel">
+                <div class="history-head">
+                  <div>
+                    <h3>历史形象</h3>
+                    <p class="hint">管理已创建的数字形象。</p>
+                  </div>
+                  <div class="history-actions">
+                    <button id="cleanupEmptySourceVideoHumansBtn" class="danger-button" type="button">清理空白占位</button>
+                    <button id="clearAllSourceVideoHumansBtn" class="danger-button" type="button">清空历史形象</button>
+                    <button id="deleteSourceVideoHumanBtn" class="danger-button" type="button">删除当前形象</button>
+                    <button id="refreshCloneAvatarInlineBtn" type="button">刷新</button>
+                  </div>
+                </div>
+                <div id="cloneAvatarHistorySummary" class="history-summary">仅显示有素材或刚创建的形象。</div>
+                <div id="cloneAvatarHistoryList" class="list-box empty asset-empty">
+                  <strong>暂无历史形象</strong>
+                  <span>完成克隆后，形象会显示在这里。</span>
+                </div>
+              </section>
+            </div>
+          </section>
+
+          <section class="view" data-view="digital-humans">
+            <div class="page-head">
+              <h2>数字人列表</h2>
+              <button id="refreshHumansBtn" type="button">刷新数字人</button>
+            </div>
+            <section class="panel">
+              <label>
+                数字人名称
+                <input id="humanName" value="合成 IP 主播" autocomplete="off" />
+              </label>
+              <label>
+                选择数字人
+                <select id="humanSelect"></select>
+              </label>
+              <div class="actions compact">
+                <button id="createHumanBtn" type="button">创建数字人</button>
+                <button id="selectHumanBtn" type="button">选择数字人</button>
+              </div>
+            </section>
+            <section class="panel">
+              <h3>上传客户个人数字人形象</h3>
+              <p class="hint">支持上传客户自己的正脸图片或数字人视频，文件先保存到当前项目素材库；制作视频时如选择 fal.ai 云端渲染，系统会自动临时上传到 fal。已在 Tavus 训练好 Replica 时，可把 Replica ID 一起填入。</p>
+              <label>
+                客户数字人名称
+                <input id="personalHumanName" value="客户个人数字人" autocomplete="off" />
+              </label>
+              <label>
+                上传图片或视频
+                <input id="personalHumanFile" type="file" accept="image/*,video/*" />
+              </label>
+              <label>
+                Tavus Replica ID（可选）
+                <input id="personalHumanTavusReplicaId" placeholder="例如 rxxxxxxxxxxx，训练完成后填写" autocomplete="off" />
+              </label>
+              <div class="actions compact">
+                <button id="uploadPersonalHumanBtn" type="button">上传并创建数字人</button>
+              </div>
+            </section>
+            <section class="panel">
+              <h3>数字人列表</h3>
+              <div id="humanList" class="list-box empty">暂无数字人</div>
+            </section>
+          </section>
+
+          <section class="view" data-view="digital-human-detail">
+            <div class="page-head">
+              <h2>数字人详情</h2>
+              <button id="humanReadinessBtn" type="button">查看准备度</button>
+            </div>
+            <section class="panel">
+              <label>
+                头像提示词
+                <textarea id="avatarPrompt" rows="4">亲和、专业的合成数字人主播，干净演播室光线，适合竖屏口播</textarea>
+              </label>
+              <div class="actions compact">
+                <button id="generateAvatarBtn" type="button">生成头像</button>
+                <button id="selectAvatarBtn" type="button">选定头像</button>
+              </div>
+            </section>
+            <section class="panel">
+              <h3>头像候选</h3>
+              <div id="avatarGallery" class="gallery empty">暂无头像候选</div>
+            </section>
+            <section class="panel">
+              <h3>准备度</h3>
+              <pre id="humanReadinessBox" class="json-box">等待选择数字人</pre>
+            </section>
+            <section class="panel wide">
+              <h3>角色模型</h3>
+              <div class="row">
+                <label>
+                  角色源视频路径
+                  <input id="roleSourceVideoPath" placeholder="例如 D:\roles\source.mp4" autocomplete="off" />
+                </label>
+                <label>
+                  待机视频路径
+                  <input id="roleIdleVideoPath" placeholder="例如 D:\roles\idle.mp4" autocomplete="off" />
+                </label>
+              </div>
+              <div class="row">
+                <label>
+                  动作视频路径
+                  <input id="roleActionVideoPath" placeholder="例如 D:\roles\action.mp4" autocomplete="off" />
+                </label>
+                <label>
+                  pkl 模型路径
+                  <input id="rolePklPath" placeholder="例如 D:\roles\model_9.pkl" autocomplete="off" />
+                </label>
+              </div>
+              <div class="row">
+                <label>
+                  角色引擎
+                  <select id="roleEngineType">
+                    <option value="yywav2lip">yywav2lip</option>
+                    <option value="wav2lip">wav2lip</option>
+                    <option value="duix">duix</option>
+                    <option value="liveportrait">liveportrait</option>
+                  </select>
+                </label>
+                <label>
+                  选择角色模型
+                  <select id="roleModelSelect"></select>
+                </label>
+              </div>
+              <div class="actions compact">
+                <button id="createRoleModelBtn" type="button">创建角色模型</button>
+                <button id="selectRoleModelBtn" type="button">选择角色模型</button>
+                <button id="validateRoleModelBtn" type="button">校验角色模型</button>
+                <button id="refreshRoleModelsBtn" type="button">刷新角色模型</button>
+              </div>
+              <div id="roleModelList" class="list-box empty">暂无角色模型</div>
+            </section>
+          </section>
+
+          <section class="view agent-view active" data-view="source-video-human">
+            <h2 class="sr-only">工作台</h2>
+            <div class="sr-only" aria-hidden="true">
+              <p>默认使用云端生成数字人视频</p>
+              <label>
+                视频主题
+                <input id="topic" value="AI IP 口播主题" autocomplete="off" />
+              </label>
+              <label>
+                兼容渲染模式
+                <select id="renderProfile">
+                  <option value="final" selected>最终质量</option>
+                  <option value="compat">兼容模式</option>
+                  <option value="preview">预览模式</option>
+                  <option value="standard">标准模式</option>
+                  <option value="batch">批量模式</option>
+                </select>
+              </label>
+              <label>
+                视频模板
+                <select id="videoTemplateSelect"></select>
+              </label>
+              <label>
+                <input id="reviewRequired" type="checkbox" checked />
+                需要脚本审核
+              </label>
+              <button id="createTaskBtn" type="button">创建视频任务</button>
+              <pre id="templateInfoBox">选择视频模板后在这里预览布局信息。</pre>
+            </div>
+
+            <div class="agent-workbench reference-layout">
+              <div class="agent-column agent-column-left">
+                <section class="agent-card agent-card-ip">
+                  <div class="agent-card-head">
+                    <span class="agent-step-badge">01</span>
+                    <h3>IP深度学习</h3>
+                    <button class="agent-card-collapse" type="button" aria-label="收起卡片">⌄</button>
+                  </div>
+                  <div class="agent-tabs" aria-label="文案操作" hidden aria-hidden="true" style="display: none">
+                    <button class="active" type="button" data-inline-script-action="hot">文案仿写</button>
+                  </div>
+                  <div class="reference-link-inline">
+                    <input
+                      id="sourceVideoReferenceLinkInput"
+                      autocomplete="off"
+                      placeholder="例如：https://v.douyin.com/xxxx 或公开视频 mp4 链接"
+                      aria-label="视频链接"
+                    />
+                    <button id="sourceVideoReferenceLinkAnalyzeBtn" class="agent-pill-button" type="button">开始解析并转写</button>
+                    <button id="sourceVideoDownloadWatchBtn" class="agent-pill-button" type="button">接收客户端下载</button>
+                  </div>
+                  <div id="sourceVideoReferenceLinkStatus" class="agent-card-status reference-link-status">粘贴链接后开始解析视频声音。</div>
+                  <label>
+                    识别的原始内容
+                    <textarea id="sourceVideoIpInput" class="agent-textarea agent-black-box" rows="8" maxlength="10000" placeholder="粘贴产品资料、品牌卖点或参考视频识别结果。"></textarea>
+                  </label>
+                  <div id="sourceVideoIpCounter" class="agent-counter">0/10000</div>
+                  <div class="agent-card-status" data-agent-status="ip">等待输入 IP 或参考视频内容。</div>
+                </section>
+
+                <section class="agent-card agent-card-script">
+                  <div class="agent-card-head">
+                    <button id="sourceVideoSaveScriptBtn" class="agent-pill-button script-title-rewrite" type="button" data-inline-script-action="rewrite">改写文案</button>
+                  </div>
+                  <label>
+                    文章内容
+                    <textarea id="sourceVideoScript" rows="12">你好，这是使用源视频音色合成的新口播脚本。原视频声音只作为声音样本，不会直接进入成片。</textarea>
+                  </label>
+                  <div id="sourceVideoScriptCounter" class="agent-counter agent-script-counter">当前脚本：0 字</div>
+                  <div class="agent-script-controls">
+                    <label class="script-language-control">
+                      语言
+                      <select id="sourceVideoLanguage" aria-label="文案语言">
+                        <option value="zh-CN">中文（普通话）</option>
+                        <option value="en-US">英语（English）</option>
+                        <option value="es-ES">西班牙语（Español）</option>
+                        <option value="ar-SA">阿拉伯语（العربية）</option>
+                        <option value="pt-BR">葡萄牙语（Português）</option>
+                      </select>
+                    </label>
+                  </div>
+                  <div class="agent-card-status" data-agent-status="script">脚本文案会直接作为默认字幕内容。</div>
+                </section>
+              </div>
+
+              <div class="agent-column agent-column-media">
+                <section class="agent-card agent-card-av reference-av-card">
+                  <div class="agent-card-head">
+                    <span class="agent-step-badge">02</span>
+                    <h3>音视频生成</h3>
+                    <button class="agent-card-collapse" type="button" aria-label="收起卡片">⌄</button>
+                  </div>
+                  <div class="av-settings-grid">
+                    <label class="av-control av-control-voice">
+                      音色
+                      <select id="sourceVideoVoiceSelect"></select>
+                    </label>
+                    <label class="av-control">
+                      情绪
+                      <select id="sourceVideoMoodSelect" aria-label="情绪">
+                        <option value="natural">自然</option>
+                        <option value="warm">热情</option>
+                        <option value="calm">沉稳</option>
+                      </select>
+                    </label>
+                    <label class="av-control">
+                      语速
+                      <input id="sourceVideoSpeechRate" value="1" min="0.5" max="2" step="0.1" type="number" aria-label="语速" />
+                    </label>
+                  </div>
+                  <div class="agent-audio-box reference-audio-box">
+                    <div class="agent-audio-toolbar">
+                      <span>音频预览</span>
+                      <div class="audio-mini-actions">
+                        <button id="playSourceVideoVoiceBtn" class="agent-pill-button" type="button">生成语音</button>
+                        <button id="refreshSourceVideoAssetPreviewBtn" class="ghost-mini" type="button">刷新</button>
+                      </div>
+                    </div>
+                    <div class="audio-preview-slot">
+                      <audio id="sourceVideoVoicePreview" controls></audio>
+                      <span>暂无音频，请生成或选择历史记录</span>
+                    </div>
+                  </div>
+                  <label class="av-control">
+                    选择形象
+                    <select id="sourceVideoHumanSelect"></select>
+                  </label>
+                  <div class="agent-filter-row av-filter-row source-video-hidden-avatar-filter" hidden aria-hidden="true">
+                    <label class="checkline"><input type="checkbox" id="sourceVideoOnlyReadyHumans" checked /> 只显示可制作形象</label>
+                    <button id="showAllSourceVideoHumansBtn" type="button">全部</button>
+                    <button id="hideSourceVideoHumanBtn" type="button">隐藏</button>
+                  </div>
+                  <input id="sourceVideoRenderQuality" type="hidden" value="final" />
+                  <div class="agent-inline-actions av-primary-actions">
+                    <button id="sourceVideoRenderBtn" class="agent-pill-button agent-bright-button" type="button">生成口播视频</button>
+                    <button type="button" data-go="clone-avatar">导入数字人视频</button>
+                    <button id="sourceVideoReportBtn" type="button">查看报告</button>
+                  </div>
+                  <div id="sourceVideoAssetPreviewPanel" class="agent-asset-preview asset-preview-panel source-video-hidden-asset-preview" hidden aria-hidden="true">
+                    <h4>视频预览</h4>
+                    <div id="sourceVideoAvPreviewFrame" class="asset-preview-frame av-video-preview-frame">
+                      <video id="sourceVideoAvatarVideoPreview" controls muted playsinline></video>
+                      <img id="sourceVideoAvatarImagePreview" alt="数字人形象预览" />
+                      <div id="sourceVideoAvatarEmptyPreview" class="empty-preview">暂无形象预览</div>
+                    </div>
+                    <dl class="asset-preview-meta av-preview-meta">
+                      <div>
+                        <dt>数字人</dt>
+                        <dd id="sourceVideoAssetHumanName">-</dd>
+                      </div>
+                      <div>
+                        <dt>声音</dt>
+                        <dd id="sourceVideoAssetVoiceName">-</dd>
+                      </div>
+                    </dl>
+                    <audio id="sourceVideoAssetVoicePreview" controls></audio>
+                  </div>
+                  <div class="agent-card-status" data-agent-status="av">请选择数字人形象和声音。</div>
+                </section>
+
+                <section class="agent-card agent-card-edit">
+                  <div class="agent-card-head">
+                    <span class="agent-step-badge">03</span>
+                    <h3>视频编辑</h3>
+                    <button class="agent-card-collapse" type="button" aria-label="收起卡片">⌄</button>
+                  </div>
+                  <div class="agent-check-row">
+                    <label class="checkline"><input id="sourceVideoPipEnabled" type="checkbox" checked /> 画中画</label>
+                    <label class="checkline source-video-hidden-auto-edit-control" hidden aria-hidden="true" style="display: none"><input id="sourceVideoAutoBreathCut" type="checkbox" /> 自动剪气口</label>
+                    <label class="checkline source-video-hidden-auto-edit-control" hidden aria-hidden="true" style="display: none"><input id="sourceVideoAutoGreenSwitch" type="checkbox" /> 自动绿幕切换</label>
+                  </div>
+                  <div class="agent-inline-actions">
+                    <button id="sourceVideoPipSettingsBtn" type="button">画中画设置</button>
+                    <button class="source-video-hidden-auto-edit-control" type="button" data-fail-feature="自动剪辑策略" data-agent-status-target="edit" hidden aria-hidden="true" style="display: none">自动处理</button>
+                  </div>
+                  <div class="source-video-hidden-subtitle-controls" hidden aria-hidden="true">
+                  <div class="agent-check-row">
+                    <label class="checkline">
+                      <input id="sourceVideoSubtitleEnabled" type="checkbox" checked />
+                      自动生成字幕
+                    </label>
+                    <label class="checkline">
+                      <input id="sourceVideoSmartSubtitleEnabled" type="checkbox" checked />
+                      启用智能字幕
+                    </label>
+                  </div>
+                  <p class="field-hint">字幕在卡片 03 随画中画一起生成；默认跟随脚本文案，启用智能字幕时优先使用当前配置的 Paraformer/FunASR 模型对齐。</p>
+                  <label>
+                    覆盖字幕文案（可选）
+                    <textarea id="sourceVideoSubtitleText" class="agent-textarea agent-black-box" rows="3" placeholder="不填则直接使用左侧视频脚本；生成时会按一句一行显示。"></textarea>
+                  </label>
+                  </div>
+                  <div class="source-progress" id="sourceVideoProgressWrap">
+                    <div class="source-progress-head">
+                      <strong id="sourceVideoProgressTitle">等待开始</strong>
+                      <span id="sourceVideoProgressPercent">0%</span>
+                    </div>
+                    <div
+                      class="source-progress-bar"
+                      id="sourceVideoProgressBar"
+                      role="progressbar"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      aria-valuenow="0"
+                    >
+                      <span class="source-progress-fill" id="sourceVideoProgressFill"></span>
+                    </div>
+                    <p class="field-hint" id="sourceVideoProgressHint">生成中会在这里显示进度。</p>
+                  </div>
+                  <h4>处理后视频</h4>
+                  <video id="sourceVideoFinalPreview" controls></video>
+                  <pre id="sourceVideoProgressBox" class="json-box source-video-hidden-progress-report" hidden aria-hidden="true">按步骤完成制作后，在这里查看进度和成片报告。</pre>
+                  <div class="agent-card-status" data-agent-status="edit">画中画和字幕可在当前卡片设置、生成、预览和下载。</div>
+                </section>
+              </div>
+
+              <div class="agent-column agent-column-content">
+                <section class="agent-card agent-card-tags">
+                  <div class="agent-card-head">
+                    <span class="agent-step-badge">04</span>
+                    <h3>标题标签关键词</h3>
+                    <button class="agent-card-collapse" type="button" aria-label="收起卡片">⌄</button>
+                  </div>
+                  <button class="agent-pill-button" id="sourceVideoGenerateTagsBtn" type="button">提取标题标签关键词</button>
+                  <label>
+                    生成的标题（可编辑）
+                    <input id="sourceVideoGeneratedTitle" value="数字人口播短视频" autocomplete="off" />
+                  </label>
+                  <label>
+                    生成的标签（可编辑）
+                    <textarea id="sourceVideoGeneratedTags" class="agent-textarea agent-black-box" rows="3" autocomplete="off">数字人,AI口播,短视频</textarea>
+                  </label>
+                  <label>
+                    生成的关键词
+                    <textarea id="sourceVideoGeneratedKeywords" class="agent-textarea agent-black-box" rows="5">数字人
+AI口播
+内容生产</textarea>
+                  </label>
+                  <div class="agent-card-status" data-agent-status="tags">点击按钮会用当前大模型提取标题、标签和关键词。</div>
+                </section>
+
+                <section class="agent-card agent-card-subtitle">
+                  <div class="agent-card-head">
+                    <span class="agent-step-badge">05</span>
+                    <h3>配乐和导出</h3>
+                    <button class="agent-card-collapse" type="button" aria-label="收起卡片">⌄</button>
+                  </div>
+                  <div class="agent-check-row">
+                    <label class="checkline">
+                      <input id="sourceVideoBgmEnabled" type="checkbox" checked />
+                      添加背景音乐
+                    </label>
+                  </div>
+                  <p class="field-hint source-video-hidden-bgm-hint" hidden aria-hidden="true">完成卡片 03 后，在这里给处理后视频添加背景音乐，并导出最终结果。</p>
+                  <div class="agent-inline-actions source-video-bgm-picker-row">
+                    <button id="sourceVideoBgmPickerBtn" class="source-video-bgm-select-button" type="button" aria-haspopup="dialog">
+                      <span id="sourceVideoBgmCurrent" class="bgm-current">正在加载背景音乐...</span>
+                    </button>
+                    <button id="sourceVideoPreviewBgmBtn" type="button">试听</button>
+                  </div>
+                  <input id="sourceVideoBgmVolume" type="hidden" value="18" />
+                  <div class="source-video-bgm-legacy-select" hidden aria-hidden="true">
+                    <select id="sourceVideoBgmSelect" aria-label="选择背景音乐">
+                      <option value="">正在加载背景音乐...</option>
+                    </select>
+                  </div>
+                  <audio id="sourceVideoBgmAudio" class="agent-audio-preview" controls preload="none" aria-label="背景音乐试听和音量"></audio>
+                  <div class="source-video-export-row">
+                    <button id="sourceVideoAddBgmBtn" class="agent-primary-wide agent-bright-button" type="button">添加配乐并导出最终结果</button>
+                    <a id="downloadSourceVideoFinal" class="download source-video-mp4-download disabled">下载 MP4</a>
+                  </div>
+                  <h4>最终视频预览</h4>
+                  <video id="sourceVideoMusicFinalPreview" controls></video>
+                  <div class="downloads source-video-hidden-secondary-downloads" hidden aria-hidden="true">
+                    <a id="downloadSourceVideoVoice" class="download disabled">预览 voice.wav</a>
+                    <a id="downloadSourceVideoArtifacts" class="download disabled">下载 artifacts.zip</a>
+                  </div>
+                  <div class="agent-card-status" data-agent-status="subtitle">请先完成卡片 03，再在这里添加配乐并导出最终 MP4。</div>
+                </section>
+              </div>
+
+              <div class="agent-column agent-column-publish">
+                <section class="agent-card agent-card-auto source-video-hidden-auto-card" hidden aria-hidden="true" style="display: none">
+                  <button class="agent-gradient-button" id="agentAutoModeBtn" type="button">开启一键自动模式</button>
+                  <div class="agent-auto-links">
+                    <button class="mini-link" type="button" data-fail-feature="停止任务" data-agent-status-target="auto">停止任务</button>
+                    <button class="mini-link" type="button" data-fail-feature="清除数据" data-agent-status-target="auto">清除数据</button>
+                  </div>
+                  <button class="ghost-button" type="button" data-go="model-center">智能体配置</button>
+                  <div class="agent-card-status" data-agent-status="auto">一键自动模式只会串联已接通的流程。</div>
+                </section>
+
+                <section class="agent-card agent-card-cover">
+                  <div class="agent-card-head">
+                    <span class="agent-step-badge">06</span>
+                    <h3>封面制作</h3>
+                    <button class="mini-link" id="sourceVideoCoverSettingsBtn" type="button">封面设置</button>
+                  </div>
+                  <div class="cover-selected-summary">
+                    <span>当前模板</span>
+                    <strong id="sourceVideoCoverTemplateSummary">正在加载模板...</strong>
+                  </div>
+                  <button id="sourceVideoGenerateCoverBtn" class="agent-pill-button" type="button">用首帧生成封面</button>
+                  <div class="cover-preview">
+                    <img id="sourceVideoCoverPreviewImage" alt="封面预览" role="button" tabindex="0" aria-label="放大查看封面" title="点击放大查看封面" />
+                    <strong id="sourceVideoCoverPreviewEmpty">封面预览</strong>
+                    <span>生成时会使用当前视频首帧加关键词制作封面。</span>
+                  </div>
+                  <div class="downloads">
+                    <a id="downloadSourceVideoCover" class="download disabled" hidden aria-hidden="true">下载封面.png</a>
+                    <a id="downloadSourceVideoCoverReport" class="download disabled" hidden aria-hidden="true">下载封面报告</a>
+                  </div>
+                  <div class="agent-card-status" data-agent-status="cover">选择模板后，可用当前视频首帧生成封面。</div>
+                </section>
+
+                <section class="agent-card agent-card-publish">
+                  <div class="agent-card-head">
+                    <span class="agent-step-badge">07</span>
+                    <h3>视频发布</h3>
+                    <button id="openPublishAccountLoginQuickBtn" class="mini-link" type="button">账号管理</button>
+                  </div>
+                  <div class="publish-platform-list publish-platform-row">
+                    <label class="checkline"><span><input id="agentPublishDouyin" data-publish-platform="douyin" type="checkbox" checked /> 抖音</span><em>抖音可用</em></label>
+                    <label class="checkline muted"><span><input data-publish-platform="kuaishou" type="checkbox" disabled /> 快手</span><em>待接入</em></label>
+                    <label class="checkline"><span><input id="agentPublishXiaohongshu" data-publish-platform="xiaohongshu" type="checkbox" /> 小红书</span><em>小红书可用</em></label>
+                    <label class="checkline"><span><input id="agentPublishShipinhao" data-publish-platform="shipinhao" type="checkbox" /> 视频号</span><em>视频号可用</em></label>
+                  </div>
+                  <button id="agentPublishConfirmBtn" class="agent-pill-button" type="button">发布</button>
+                  <button id="agentPublishScheduleBtn" type="button" hidden aria-hidden="true" style="display: none">定时发布</button>
+                  <div class="agent-card-status" data-agent-status="publish">点击发布会打开所选平台浏览器并填充内容，登录态会保留；检查无误后由你在官方页面确认。</div>
+                  <a class="agent-local-promo-link" href="https://localads.chengzijianzhan.cn/" target="_blank" rel="noopener noreferrer">巨量本地推投流</a>
+                </section>
+              </div>
+            </div>
+          </section>
+
+          <section class="view" data-view="references">
+            <div class="page-head">
+              <h2>参考视频</h2>
+              <button id="refreshReferencesBtn" type="button">刷新参考视频</button>
+            </div>
+            <section class="panel">
+              <label>
+                参考视频标题
+                <input id="referenceTitle" value="口播参考视频" autocomplete="off" />
+              </label>
+              <label>
+                本地视频路径
+                <input id="referenceSourcePath" placeholder="例如 D:\references\sample.mp4" autocomplete="off" />
+              </label>
+              <label>
+                项目素材 ID 或文件名
+                <input id="referenceAssetId" placeholder="可填写 existing_asset.mp4" autocomplete="off" />
+              </label>
+              <label>
+                选择参考视频
+                <select id="referenceSelect"></select>
+              </label>
+              <div class="actions compact">
+                <button id="createReferenceBtn" type="button">创建参考视频</button>
+                <button id="selectReferenceBtn" type="button">选择参考视频</button>
+                <button id="analyzeReferenceBtn" type="button">分析参考视频</button>
+                <button id="loadReferenceAnalysisBtn" type="button">查看分析结果</button>
+              </div>
+            </section>
+            <section class="panel">
+              <h3>参考视频列表</h3>
+              <div id="referenceList" class="list-box empty">暂无参考视频</div>
+            </section>
+            <section class="panel wide">
+              <h3>参考视频分析</h3>
+              <pre id="referenceAnalysisBox" class="json-box">等待分析参考视频</pre>
+            </section>
+          </section>
+
+          <section class="view copywriting-view" data-view="script-rewrite">
+            <div class="copy-stepper" aria-label="文案处理步骤">
+              <span class="active">①导入文案</span>
+              <span class="divider">——</span>
+              <span>②文案结果</span>
+            </div>
+            <section class="copywriting-stage">
+              <h2>文案生成/改写</h2>
+              <textarea
+                id="rewriteProductInfo"
+                class="copywriting-input"
+                rows="9"
+                maxlength="3500"
+                placeholder="粘贴文案至此处：也可以输入产品名称、核心卖点、目标人群，直接生成口播文案。"
+              ></textarea>
+              <div class="copywriting-toolbar">
+                <span id="rewriteInputCount">0/3500</span>
+                <label class="copywriting-style">
+                  文案风格
+                  <select id="rewriteStyle">
+                    <option value="original">原风格</option>
+                    <option value="sales_live">带货直播口语</option>
+                    <option value="seeding">种草文案</option>
+                    <option value="formal">正式介绍</option>
+                    <option value="humor">幽默风趣</option>
+                  </select>
+                </label>
+                <input id="rewriteTone" value="原风格" hidden autocomplete="off" />
+                <input id="rewrittenScriptCount" type="number" min="1" max="20" value="3" hidden />
+                <button id="pasteCopyBtn" class="ghost-button" type="button">粘贴</button>
+                <button id="clearCopyBtn" class="ghost-button" type="button">清空</button>
+                <button id="generateCopyBtn" type="button">生成文案</button>
+                <button id="generateScriptsBtn" type="button">改写文案</button>
+              </div>
+            </section>
+            <section class="panel wide copywriting-results">
+              <div class="history-head">
+                <div>
+                  <h3>文案结果</h3>
+                  <p class="hint">生成后选择一条文案，可直接用于数字人视频脚本。</p>
+                </div>
+                <button id="refreshRewritesBtn" type="button">刷新改写结果</button>
+              </div>
+              <label>
+                选择文案
+                <select id="rewrittenScriptSelect"></select>
+              </label>
+              <div class="actions compact">
+                <button id="selectScriptForTaskBtn" type="button">选为视频脚本</button>
+              </div>
+              <div id="rewrittenScriptsBox" class="copy-result-list generated-copy">
+                <div class="copy-result-empty">生成后，文案会显示在这里。</div>
+              </div>
+            </section>
+          </section>
+
+          <section class="view" data-view="campaigns">
+            <div class="page-head">
+              <h2>批量生产</h2>
+              <button id="createCampaignBtn" type="button">创建批量任务</button>
+            </div>
+            <section class="panel wide">
+              <label>
+                批量任务名称
+                <input id="campaignName" value="短视频批量生产" autocomplete="off" />
+              </label>
+              <div class="row">
+                <label>
+                  内容来源
+                  <select id="campaignSource">
+                    <option value="topics">粘贴选题</option>
+                    <option value="rewrites">已生成的改写脚本</option>
+                    <option value="csv">CSV 上传</option>
+                  </select>
+                </label>
+                <label>
+                  视频模板
+                  <select id="campaignTemplateSelect"></select>
+                </label>
+              </div>
+              <label>
+                粘贴选题列表
+                <textarea id="campaignTopics" rows="6">第一个短视频选题
+第二个短视频选题</textarea>
+              </label>
+              <label>
+                CSV 上传
+                <input id="campaignCsvFile" type="file" accept=".csv,text/csv,text/plain" />
+              </label>
+              <label>
+                CSV 文本
+                <textarea id="campaignCsvText" rows="4" placeholder="topic,platform，例如：选题一,douyin"></textarea>
+              </label>
+              <div class="actions compact">
+                <button id="runCampaignBtn" type="button">运行批量任务</button>
+                <button id="campaignProgressBtn" type="button">查看进度</button>
+                <button id="retryCampaignBtn" type="button">重试失败项</button>
+                <a id="downloadCampaign" class="download disabled">下载全部结果</a>
+              </div>
+            </section>
+            <section class="panel wide">
+              <h3>批量进度</h3>
+              <pre id="campaignBox" class="json-box">创建批量任务后在这里查看进度。</pre>
+            </section>
+          </section>
+
+          <section class="view" data-view="voice-profiles">
+            <div class="page-head asset-detail-head">
+              <button class="ghost-button" type="button" data-go="projects">← 返回</button>
+              <h2>克隆声音</h2>
+              <button id="refreshVoicesBtn" type="button">刷新</button>
+            </div>
+            <div class="asset-detail-layout">
+              <section class="panel asset-create-panel">
+                <h3>创建声音</h3>
+                <p class="hint">上传或录制一段清晰人声，生成可复用的专属音色。</p>
+                <label>
+                  声音名称
+                  <input id="voiceName" value="专属口播声音" placeholder="请输入声音名称" autocomplete="off" />
+                </label>
+                <label>
+                  录音参考文案
+                  <textarea id="voiceText" rows="5" maxlength="300">新的一年，愿你所求皆所愿，所行化坦途；愿过往不悔，未来可期；愿你眼里有光，心中有暖，前路有伴。新年快乐，万事顺遂！</textarea>
+                </label>
+                <div class="asset-mode-row" aria-label="声音样本方式">
+                  <span class="asset-mode active">上传音频</span>
+                  <span class="asset-mode">录制音频</span>
+                </div>
+                <label class="upload-drop">
+                  <input id="voiceSampleFile" type="file" accept="audio/*" />
+                  <span class="upload-icon" aria-hidden="true">↑</span>
+                  <strong>点击上传音频样本</strong>
+                  <span>支持 WAV/MP3/M4A，建议 10-30 秒，环境安静单人朗读。</span>
+                </label>
+                <label>
+                  选择语言
+                  <select id="voiceLanguage">
+                    <option value="zh">中文</option>
+                    <option value="en">英文</option>
+                  </select>
+                </label>
+                <div class="asset-tip">
+                  <strong>样本建议</strong>
+                  <span>请使用本人授权音频。背景噪声、多人说话、混响过强都会影响声音克隆效果。</span>
+                </div>
+                <label>
+                  选择历史声音
+                  <select id="voiceSelect"></select>
+                </label>
+                <div class="actions compact">
+                  <button id="createVoiceBtn" type="button">创建声音</button>
+                  <button id="selectVoiceBtn" type="button">选择声音</button>
+                  <button id="playVoiceSampleBtn" type="button">播放原始样本</button>
+                  <button id="testVoiceBtn" type="button">生成克隆试听</button>
+                </div>
+                <p class="hint">生成克隆试听默认使用已配置云端服务，可能消耗服务额度；相同文案已生成过时会直接播放本地缓存。</p>
+                <audio id="voicePreview" controls></audio>
+              </section>
+              <section class="panel asset-history-panel">
+                <div class="history-head">
+                  <div>
+                    <h3>历史声音</h3>
+                    <p class="hint">管理已创建的声音资产。</p>
+                  </div>
+                  <div class="history-actions">
+                    <button id="deleteVoiceInlineBtn" class="danger-button" type="button">删除声音</button>
+                    <button id="refreshVoicesInlineBtn" type="button">刷新</button>
+                  </div>
+                </div>
+                <div id="voiceList" class="list-box empty asset-empty">
+                  <strong>暂无历史声音</strong>
+                  <span>完成克隆后，声音会显示在这里。</span>
+                </div>
+              </section>
+            </div>
+          </section>
+
+          <section class="view" data-view="task-detail">
+            <div class="page-head">
+              <h2>任务详情</h2>
+              <button id="progressBtn" type="button">查看进度</button>
+            </div>
+            <section class="panel">
+              <dl class="ids">
+                <div><dt>数字人</dt><dd id="humanId">-</dd></div>
+                <div><dt>声音</dt><dd id="voiceId">-</dd></div>
+                <div><dt>角色</dt><dd id="roleModelId">-</dd></div>
+                <div><dt>任务</dt><dd id="taskId">-</dd></div>
+              </dl>
+            </section>
+            <section class="panel">
+              <h3>脚本审核</h3>
+              <pre id="scriptBox" class="script-box">等待生成脚本</pre>
+            </section>
+            <section class="panel">
+              <h3>运行日志</h3>
+              <pre id="logBox" class="log-box"></pre>
+            </section>
+          </section>
+
+          <section class="view" data-view="results">
+            <div class="page-head">
+              <h2>结果下载</h2>
+              <button id="previewBtn" type="button">预览成片</button>
+            </div>
+            <section class="panel wide">
+              <h3>成片预览</h3>
+              <div class="preview-layout">
+                <video id="videoPreview" controls></video>
+                <div class="downloads">
+                  <a id="downloadFinal" class="download disabled">下载成片 MP4</a>
+                  <a id="downloadJianying" class="download disabled">下载剪映草稿</a>
+                  <a id="downloadPublish" class="download disabled">下载发布包</a>
+                  <a id="downloadQuality" class="download disabled">下载质检报告</a>
+                  <a id="downloadAll" class="download disabled">下载全部产物</a>
+                </div>
+              </div>
+            </section>
+          </section>
+
+          <section class="view" data-view="quality-center">
+            <div class="page-head">
+              <h2>质量中心</h2>
+              <button id="refreshQualityBtn" type="button">刷新质量看板</button>
+            </div>
+            <section class="panel wide">
+              <h3>全局质量看板</h3>
+              <pre id="qualityDashboard" class="json-box">刷新后可查看长期输出稳定性。</pre>
+            </section>
+            <section class="panel wide">
+              <h3>当前任务质量摘要</h3>
+              <div class="actions compact">
+                <button id="loadTaskQualityBtn" type="button">加载当前任务摘要</button>
+              </div>
+              <pre id="taskQualitySummary" class="json-box">创建或选择任务后查看质量指标。</pre>
+            </section>
+            <section class="panel wide">
+              <h3>基准测试</h3>
+              <p class="hint">运行 30 秒、60 秒和 10 条批量 dry-run 场景。</p>
+              <div class="actions compact">
+                <button id="runBenchmarkBtn" type="button">运行基准测试</button>
+                <a id="downloadBenchmarkReport" class="download disabled">下载基准报告</a>
+              </div>
+              <pre id="benchmarkReportBox" class="json-box">运行基准测试后生成报告。</pre>
+            </section>
+          </section>
+
+          <section class="view" data-view="job-center">
+            <div class="page-head">
+              <h2>任务队列</h2>
+              <button id="refreshJobsBtn" type="button">刷新队列</button>
+            </div>
+            <section class="panel wide">
+              <h3>队列操作</h3>
+              <div class="actions compact">
+                <button id="queueRenderJobBtn" type="button">加入当前渲染任务</button>
+                <button id="queueCampaignJobBtn" type="button">加入批量任务</button>
+                <button id="runNextJobBtn" type="button">运行下一个任务</button>
+                <button id="retryJobBtn" type="button">重试选中任务</button>
+                <button id="cancelJobBtn" type="button">取消选中任务</button>
+              </div>
+            </section>
+            <section class="panel wide">
+              <h3>队列列表</h3>
+              <div id="jobList" class="list-box empty">暂无排队任务</div>
+            </section>
+            <section class="panel wide">
+              <h3>任务明细</h3>
+              <label>
+                任务 ID
+                <input id="currentTaskLookupId" placeholder="粘贴任务 ID，或使用当前任务" autocomplete="off" />
+              </label>
+              <div class="actions compact">
+                <button id="loadCurrentTaskBtn" type="button">查看当前任务</button>
+                <button id="loadJobLogsBtn" type="button">加载任务日志</button>
+              </div>
+              <pre id="jobDetails" class="json-box">选择任务后查看状态。</pre>
+              <pre id="jobLogBox" class="log-box">任务日志会显示在这里。</pre>
+            </section>
+          </section>
+
+          <section class="view" data-view="publish-console">
+            <div class="page-head">
+              <h2>发布交接</h2>
+              <button id="refreshPublishBoardBtn" type="button">刷新发布看板</button>
+            </div>
+            <section class="panel wide">
+              <div class="row">
+                <label>
+                  发布平台
+                  <select id="publishPlatform">
+                    <option value="douyin">抖音</option>
+                    <option value="xiaohongshu">小红书</option>
+                    <option value="kuaishou">快手</option>
+                    <option value="shipinhao">视频号</option>
+                    <option value="tiktok">TikTok</option>
+                  </select>
+                </label>
+                <label>
+                  发布状态
+                  <select id="publishStatus">
+                    <option value="draft">草稿</option>
+                    <option value="ready">可发布</option>
+                    <option value="scheduled">已排期</option>
+                    <option value="published">已发布</option>
+                    <option value="failed">失败</option>
+                  </select>
+                </label>
+              </div>
+              <div class="row">
+                <label>
+                  排期时间
+                  <input id="publishScheduledAt" placeholder="2026-06-08T09:30:00+08:00" autocomplete="off" />
+                </label>
+                <label>
+                  外部链接
+                  <input id="publishExternalUrl" placeholder="发布后填写平台链接" autocomplete="off" />
+                </label>
+              </div>
+              <label>
+                发布备注
+                <textarea id="publishReviewerNote" rows="3">仅做人工发布交接，不自动登录或代发。</textarea>
+              </label>
+              <div class="actions compact">
+                <button id="createPublishQueueBtn" type="button">创建发布包</button>
+                <button id="updatePublishStatusBtn" type="button">更新发布状态</button>
+                <button id="loadPublishCalendarBtn" type="button">查看发布日历</button>
+                <a id="downloadPublishHandoff" class="download disabled">下载交接包</a>
+              </div>
+            </section>
+            <section class="panel wide publish-automation-panel">
+              <div class="history-head">
+                <div>
+                  <h3>浏览器辅助发布</h3>
+                  <p class="hint">抖音、小红书、视频号可自动打开浏览器、上传视频并填写发布信息；最终发布前会等待人工确认。</p>
+                </div>
+                <button id="refreshPublishAutomationBtn" type="button">刷新发布状态</button>
+              </div>
+              <div id="publishAutomationStatusPanel" class="publish-automation-status">
+                <strong>未开始</strong>
+                <span>创建发布包后，可以启动所选平台浏览器辅助发布。</span>
+              </div>
+              <div class="actions compact">
+                <button id="openPublishAccountLoginBtn" type="button">打开平台登录</button>
+                <button id="startPublishAutomationBtn" type="button">发布</button>
+                <button id="confirmPublishFinalBtn" type="button">确认发布</button>
+              </div>
+            </section>
+            <section class="panel wide">
+              <h3>发布状态看板</h3>
+              <pre id="publishStatusBoard" class="json-box">创建发布包后查看状态。</pre>
+            </section>
+            <section class="panel wide">
+              <h3>发布日历</h3>
+              <pre id="publishCalendar" class="json-box">已排期的人工发布交接会显示在这里。</pre>
+            </section>
+          </section>
+
+          <section class="view" data-view="trial-feedback">
+            <div class="page-head">
+              <h2>试用反馈</h2>
+              <button id="refreshFeedbackBtn" type="button">刷新反馈</button>
+            </div>
+            <section class="panel">
+              <label>
+                评分
+                <select id="feedbackRating">
+                  <option value="5">5 - 很满意</option>
+                  <option value="4">4 - 比较满意</option>
+                  <option value="3">3 - 一般</option>
+                  <option value="2">2 - 需要改进</option>
+                  <option value="1">1 - 无法使用</option>
+                </select>
+              </label>
+              <label>
+                类型
+                <select id="feedbackCategory">
+                  <option value="trial">试用体验</option>
+                  <option value="ui">界面易用性</option>
+                  <option value="quality">视频质量</option>
+                  <option value="performance">速度和稳定性</option>
+                  <option value="other">其他</option>
+                </select>
+              </label>
+              <label>
+                反馈内容
+                <textarea id="feedbackMessage" rows="5" placeholder="请写下遇到的问题、想要的功能或使用感受"></textarea>
+              </label>
+              <label>
+                联系方式
+                <input id="feedbackContact" placeholder="手机号、微信或邮箱，可选" autocomplete="off" />
+              </label>
+              <div class="actions compact">
+                <button id="submitFeedbackBtn" type="button">提交反馈</button>
+                <a id="downloadFeedbackCsv" class="download disabled">下载反馈 CSV</a>
+              </div>
+            </section>
+            <section class="panel wide">
+              <h3>反馈记录</h3>
+              <pre id="feedbackBox" class="json-box">提交或刷新后查看反馈记录。</pre>
+            </section>
+          </section>
+
+          <section class="view" data-view="readiness">
+            <div class="page-head">
+              <h2>环境检查</h2>
+              <button id="refreshReadinessBtn" type="button">刷新检查</button>
+            </div>
+            <section class="panel wide">
+              <h3>系统准备度</h3>
+              <pre id="readinessBox" class="json-box">等待检查</pre>
+            </section>
+            <section class="panel wide">
+              <h3>集成探针</h3>
+              <pre id="probeBox" class="json-box">等待检查</pre>
+            </section>
+          </section>
+        </section>
+      </div>
+
+      <div
+        id="sourceVideoPipModal"
+        class="modal-shell hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="sourceVideoPipModalTitle"
+      >
+        <div class="modal-panel pip-modal-panel">
+          <div class="modal-head">
+            <h3 id="sourceVideoPipModalTitle">画中画素材</h3>
+            <button id="closeSourceVideoPipModalBtn" class="ghost-button" type="button">关闭</button>
+          </div>
+          <section id="sourceVideoPipPanel" class="source-pip-panel pip-modal-body">
+            <label class="pip-upload-drop">
+              上传画中画素材
+              <input id="sourceVideoPipAssetFiles" type="file" accept="image/*,video/*" multiple />
+              <span>支持图片和视频；多个素材会平分数字人视频中间时间。</span>
+            </label>
+            <div class="source-pip-row source-pip-asset-actions">
+              <button id="sourceVideoPipPickMoreBtn" type="button">继续添加素材</button>
+              <button id="sourceVideoPipClearAssetsBtn" type="button">清空素材</button>
+            </div>
+            <div id="sourceVideoPipAssetPreviewGrid" class="remix-asset-preview-grid empty">
+              暂未选择素材。可一次上传多张产品图、案例图或素材视频。
+            </div>
+            <div class="pip-modal-actions">
+              <button id="confirmSourceVideoPipAssetsBtn" class="ghost-button" type="button">确认使用</button>
+              <button id="sourceVideoPipGenerateBtn" class="agent-pill-button" type="button">生成画中画字幕成片</button>
+              <a id="downloadSourceVideoPipOutput" class="download disabled">下载画中画字幕成片</a>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div
+        id="sourceVideoBgmModal"
+        class="modal-shell hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="sourceVideoBgmModalTitle"
+      >
+        <div class="modal-panel bgm-picker-modal">
+          <div class="modal-head">
+            <h3 id="sourceVideoBgmModalTitle">选择背景音乐</h3>
+            <button id="closeSourceVideoBgmModalBtn" class="ghost-button" type="button">关闭</button>
+          </div>
+          <div class="bgm-picker-toolbar">
+            <div>
+              <strong>备用配乐库</strong>
+              <p>点击试听确认风格，选择后会用于卡片 05 导出。</p>
+            </div>
+            <button id="sourceVideoBgmModalPreviewBtn" type="button">试听当前选择</button>
+          </div>
+          <div id="sourceVideoBgmModalList" class="bgm-picker-list" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <div
+        id="coverSettingsModal"
+        class="modal-shell hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="coverSettingsTitle"
+      >
+        <div class="modal-panel cover-settings-panel">
+          <div class="modal-head">
+            <h3 id="coverSettingsTitle">封面设置</h3>
+            <button id="closeCoverSettingsBtn" class="ghost-button" type="button">关闭</button>
+          </div>
+          <section class="cover-settings-body">
+            <div class="cover-template-picker">
+              <div class="cover-settings-section-head">
+                <h4>选择封面模板</h4>
+                <span>点击效果图选择模板，生成时会使用视频首帧和关键词制作封面。</span>
+              </div>
+              <div id="sourceVideoCoverTemplateModalGrid" class="cover-template-grid cover-template-modal-grid"></div>
+            </div>
+            <aside class="cover-local-import">
+              <div class="cover-settings-section-head">
+                <h4>本地导入封面</h4>
+                <span>支持 PNG、JPG、WebP；只在本机使用，不上传云端。</span>
+              </div>
+              <button id="sourceVideoImportCoverBtn" class="agent-pill-button" type="button">选择本地封面</button>
+              <input id="sourceVideoCoverImportFile" class="visually-hidden-file" type="file" accept="image/*" />
+              <div id="sourceVideoCoverImportPreview" class="cover-import-preview">暂无本地封面</div>
+            </aside>
+          </section>
+          <div class="cover-modal-actions">
+            <button id="confirmCoverTemplateBtn" class="agent-pill-button" type="button">使用当前选择</button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="digitalHumanPreviewModal"
+        class="modal-shell hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="digitalHumanPreviewTitle"
+      >
+        <div class="modal-panel human-preview-modal-panel">
+          <div class="modal-head">
+            <h3 id="digitalHumanPreviewTitle">形象预览</h3>
+            <button id="closeDigitalHumanPreviewBtn" class="ghost-button" type="button">关闭</button>
+          </div>
+          <section class="human-preview-modal-body">
+            <div id="digitalHumanPreviewMedia" class="digital-human-preview-media"></div>
+            <dl class="asset-preview-meta">
+              <div>
+                <dt>名称</dt>
+                <dd id="digitalHumanPreviewName">-</dd>
+              </div>
+              <div>
+                <dt>ID</dt>
+                <dd id="digitalHumanPreviewId">-</dd>
+              </div>
+              <div>
+                <dt>素材</dt>
+                <dd id="digitalHumanPreviewFilename">-</dd>
+              </div>
+            </dl>
+          </section>
+        </div>
+      </div>
+
+      <div
+        id="coverPreviewModal"
+        class="modal-shell hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="coverPreviewTitle"
+      >
+        <div class="modal-panel cover-preview-modal-panel">
+          <div class="modal-head">
+            <h3 id="coverPreviewTitle">封面预览</h3>
+            <button id="closeCoverPreviewBtn" class="ghost-button" type="button">关闭</button>
+          </div>
+          <section class="cover-preview-modal-body">
+            <img id="coverPreviewModalImage" class="cover-preview-modal-image" alt="封面大图预览" />
+          </section>
+        </div>
+      </div>
+
+      <div
+        id="llmSettingsModal"
+        class="modal-shell hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="llmSettingsTitle"
+      >
+        <div class="modal-panel llm-modal-panel">
+          <div class="modal-head">
+            <h3 id="llmSettingsTitle">大模型设置</h3>
+            <button id="closeLlmSettingsBtn" class="ghost-button" type="button">关闭</button>
+          </div>
+          <div class="llm-settings-layout">
+            <aside class="llm-platform-sidebar">
+              <label>
+                平台搜索
+                <input id="llmPlatformSearch" placeholder="搜索平台" autocomplete="off" />
+              </label>
+              <div id="llmPlatformList" class="llm-platform-list"></div>
+            </aside>
+            <section class="llm-platform-detail">
+              <div class="llm-detail-head">
+                <span class="llm-platform-title">
+                  <img id="llmPlatformIcon" class="llm-platform-icon" alt="" />
+                  <strong id="llmPlatformName">未选择平台</strong>
+                </span>
+                <span id="llmPlatformStatus">未配置</span>
+              </div>
+              <label class="checkline">
+                <input id="llmPlatformEnabled" type="checkbox" />
+                启用平台
+              </label>
+              <label>
+                API 密钥
+                <input id="llmApiKey" type="password" autocomplete="off" />
+              </label>
+              <div class="input-action-row">
+                <button id="checkLlmPlatformBtn" type="button">检查</button>
+                <span id="llmApiKeyStatus">未检查</span>
+              </div>
+              <label>
+                API 地址
+                <input id="llmBaseUrl" autocomplete="off" />
+              </label>
+              <div class="llm-model-toolbar">
+                <button id="refreshLlmModelsBtn" type="button">刷新模型</button>
+                <button id="addLlmModelBtn" type="button">添加模型</button>
+                <button id="saveLlmPlatformsBtn" type="button">保存</button>
+              </div>
+              <div id="llmModelList" class="llm-model-list empty">暂无模型</div>
+              <pre id="llmSettingsStatus" class="json-box">等待配置。</pre>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="localLlmModelModal"
+        class="modal-shell hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="localLlmModelTitle"
+      >
+        <div class="modal-panel local-model-panel">
+          <div class="modal-head">
+            <h3 id="localLlmModelTitle">添加本地模型</h3>
+            <button id="closeLocalLlmModelBtn" class="ghost-button" type="button">关闭</button>
+          </div>
+          <section class="local-model-form">
+            <label>
+              模型名称
+              <input id="localLlmName" autocomplete="off" />
+            </label>
+            <label>
+              模型路径或地址
+              <input id="localLlmPath" autocomplete="off" />
+            </label>
+            <label>
+              模型类型
+              <select id="localLlmType">
+                <option value="local_path">本地路径</option>
+                <option value="ollama_or_local_service">Ollama 或本地服务</option>
+                <option value="other">其他</option>
+              </select>
+            </label>
+            <label>
+              备注
+              <textarea id="localLlmNotes" rows="4"></textarea>
+            </label>
+            <label class="checkline">
+              <input id="localLlmEnabled" type="checkbox" checked />
+              启用模型
+            </label>
+            <div class="actions compact">
+              <button id="saveLocalLlmModelBtn" type="button">保存</button>
+            </div>
+            <div id="localLlmModelList" class="list-box empty">暂无本地模型</div>
+          </section>
+        </div>
+      </div>
+      <div id="textInputContextMenu" class="text-input-context-menu hidden" role="menu" aria-hidden="true">
+        <button type="button" role="menuitem" data-text-input-action="copy">复制</button>
+        <button type="button" role="menuitem" data-text-input-action="cut">剪切</button>
+        <button type="button" role="menuitem" data-text-input-action="paste">粘贴</button>
+        <button type="button" role="menuitem" data-text-input-action="select-all">全选</button>
+      </div>
+    </main>
+    <script src="/studio.js?v=20260626-script-language-translate"></script>
+  </body>
+</html>

@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aivo 桌面版设置</title>
+    <link rel="stylesheet" href="./settings.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header>
+        <div>
+          <h1>Aivo 桌面版设置</h1>
+          <p>选择使用目标，系统会自动检测 TTS、Pixelle、数字人模型、剪映草稿和 Duix HTTP。</p>
+        </div>
+        <strong id="backendStatus">正在读取后端状态...</strong>
+      </header>
+
+      <section class="panel">
+        <div class="section-title">
+          <h2>使用目标</h2>
+          <span id="presetHint">先选一个目标，再点自动检测或应用推荐配置。</span>
+        </div>
+        <div id="usageCards" class="usage-grid">
+          <button class="usage-card" type="button" data-preset="dryrun_trial">
+            <strong>试用流程</strong>
+            <span>无需配置，可以体验完整流程，但生成的是占位媒体。</span>
+          </button>
+          <button class="usage-card" type="button" data-preset="yuanyue_compat">
+            <strong>对齐元岳/AivoClaw路线</strong>
+            <span>启用 Wav2Lip / YYWav2Lip、Pixelle 和剪映草稿。</span>
+          </button>
+          <button class="usage-card" type="button" data-preset="high_quality">
+            <strong>高质量数字人</strong>
+            <span>优先 CosyVoice、MuseTalk、LatentSync，可选 Duix HTTP。</span>
+          </button>
+          <button class="usage-card" type="button" data-preset="batch_production">
+            <strong>批量生产</strong>
+            <span>偏向速度和稳定性，适合批量生成短视频。</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-title">
+          <h2>当前可用性</h2>
+          <span>绿色可直接用，黄色需要注意，红色是真实模式阻断项，灰色表示未启用。</span>
+        </div>
+        <div id="moduleStatusCards" class="status-grid"></div>
+      </section>
+
+      <section class="panel">
+        <h2>简单选择</h2>
+        <div class="grid">
+          <label>声音方案
+            <select id="ttsProvider">
+              <option value="dryrun">dry-run 占位声音</option>
+              <option value="edge">Edge TTS</option>
+              <option value="aliyun_tts">阿里云 TTS</option>
+              <option value="azure_tts">微软 Azure TTS</option>
+              <option value="cosyvoice_http">CosyVoice HTTP</option>
+              <option value="gpt_sovits_http">GPT-SoVITS HTTP</option>
+              <option value="generic_http">通用 HTTP TTS</option>
+            </select>
+          </label>
+          <label>数字人方案
+            <select id="digitalHumanEngine">
+              <option value="auto">自动推荐</option>
+              <option value="tavus">Tavus 自定义 Replica</option>
+              <option value="baidu_xiling">百度曦灵数字人</option>
+              <option value="hifly">飞影 API 数字人</option>
+              <option value="omnihuman">火山 OmniHuman1.5</option>
+              <option value="syncso">Sync.so 云端口型同步</option>
+              <option value="yywav2lip">YYWav2Lip 兼容</option>
+              <option value="wav2lip">Wav2Lip</option>
+              <option value="musetalk">MuseTalk 预览</option>
+              <option value="latentsync">LatentSync 高质量</option>
+              <option value="duix_http">Duix HTTP 最终渲染</option>
+              <option value="static">静态兜底</option>
+            </select>
+          </label>
+          <label>剪辑输出
+            <select id="editingOutput">
+              <option value="mp4_only">仅 MP4</option>
+              <option value="jianying_export">导出剪映草稿</option>
+              <option value="jianying_auto">自动检测剪映目录</option>
+            </select>
+          </label>
+          <label>渲染模式
+            <select id="runtimeMode">
+              <option value="dry-run">dry-run 试用模式</option>
+              <option value="compat">compat 兼容数字人</option>
+              <option value="standard">standard 标准真实模式</option>
+              <option value="final">final 最终质量模式</option>
+              <option value="batch">batch 批量生产模式</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>一键操作</h2>
+        <div class="actions">
+          <button id="autoDetectBtn" type="button">自动检测</button>
+          <button id="applyRecommendedBtn" type="button">应用推荐配置</button>
+          <button id="saveSettingsBtn" type="button">保存设置</button>
+          <button id="validateSettingsBtn" type="button">一键校验</button>
+          <button id="copyEnvBtn" type="button">复制 .env</button>
+          <button id="alignmentReportBtn" type="button">查看对齐报告</button>
+          <button id="restartBackendBtn" type="button">重启后端</button>
+          <button id="stopBackendBtn" type="button">停止后端</button>
+          <button id="openStudioBtn" type="button">打开工作台</button>
+          <button id="refreshLogBtn" type="button">刷新日志</button>
+        </div>
+        <div id="validationSummary" class="status-line status-yellow">等待校验</div>
+        <div id="validationResults" class="check-list"></div>
+      </section>
+
+      <details id="advancedSettings" class="panel">
+        <summary>高级设置</summary>
+        <p>只有接入真实模型路径、HTTP 服务或剪映目录时才需要修改这些字段。</p>
+
+        <section class="advanced-group">
+          <h2>运行环境</h2>
+          <div class="grid">
+            <label>存储路径<input id="storagePath" autocomplete="off" /></label>
+            <label>Python 路径<input id="pythonPath" autocomplete="off" /></label>
+            <label>后端地址<input id="backendHost" autocomplete="off" /></label>
+            <label>后端端口<input id="backendPort" type="number" min="1" max="65535" /></label>
+          </div>
+        </section>
+
+        <section class="advanced-group">
+          <h2>TTS 声音合成</h2>
+          <div class="grid">
+            <label>TTS_ENGINE<input id="TTS_ENGINE" placeholder="dryrun / edge / cosyvoice_http / gpt_sovits_http / generic_http" autocomplete="off" /></label>
+            <label>TTS_BASE_URL<input id="TTS_BASE_URL" placeholder="http://127.0.0.1:50000" autocomplete="off" /></label>
+            <label>TTS_DEFAULT_VOICE<input id="TTS_DEFAULT_VOICE" placeholder="默认声音 ID" autocomplete="off" /></label>
+            <label>CosyVoice URL<input id="COSYVOICE_URL" placeholder="http://127.0.0.1:50000" autocomplete="off" /></label>
+            <label>GPT-SoVITS URL<input id="GPT_SOVITS_URL" placeholder="http://127.0.0.1:9880" autocomplete="off" /></label>
+          </div>
+        </section>
+
+        <section class="advanced-group">
+          <h2>Pixelle 短视频后端</h2>
+          <div class="grid">
+            <label class="checkline"><input id="PIXELLE_ENABLED" type="checkbox" /> PIXELLE_ENABLED</label>
+            <label>PIXELLE_BASE_URL<input id="PIXELLE_BASE_URL" autocomplete="off" /></label>
+            <label>脚本 endpoint<input id="PIXELLE_SCRIPT_ENDPOINT" autocomplete="off" /></label>
+            <label>视频 endpoint<input id="PIXELLE_VIDEO_ENDPOINT" autocomplete="off" /></label>
+          </div>
+        </section>
+
+        <section class="advanced-group">
+          <h2>Sync.so 云端口型同步</h2>
+          <div class="grid">
+            <label class="checkline"><input id="CLOUD_LIPSYNC_ENABLED" type="checkbox" /> CLOUD_LIPSYNC_ENABLED</label>
+            <label>CLOUD_LIPSYNC_PROVIDER<input id="CLOUD_LIPSYNC_PROVIDER" placeholder="syncso" autocomplete="off" /></label>
+            <label>SYNCSO_BASE_URL<input id="SYNCSO_BASE_URL" placeholder="https://api.sync.so" autocomplete="off" /></label>
+            <label>SYNCSO_API_KEY<input id="SYNCSO_API_KEY" type="password" autocomplete="off" /></label>
+            <label>SYNCSO_MODEL<input id="SYNCSO_MODEL" placeholder="lipsync-2" autocomplete="off" /></label>
+            <label>SYNCSO_GENERATE_ENDPOINT<input id="SYNCSO_GENERATE_ENDPOINT" placeholder="/v2/generate" autocomplete="off" /></label>
+            <label>SYNCSO_TIMEOUT_SECONDS<input id="SYNCSO_TIMEOUT_SECONDS" type="number" min="30" /></label>
+            <label>SYNCSO_POLL_INTERVAL_SECONDS<input id="SYNCSO_POLL_INTERVAL_SECONDS" type="number" min="1" step="0.5" /></label>
+          </div>
+        </section>
+
+        <section class="advanced-group">
+          <h2>Tavus 自定义 Replica 云端数字人</h2>
+          <div class="inline-actions">
+            <button id="openTavusConsoleBtn" type="button">打开 Tavus 控制台</button>
+            <button id="openTavusDocsBtn" type="button">打开 Tavus 文档</button>
+            <button id="copyTavusReplicaBtn" type="button">复制当前 Replica ID</button>
+          </div>
+          <p class="hint">在 Tavus 控制台创建或训练自己的 Replica，复制 Replica ID 后填入下面的 TAVUS_REPLICA_ID。</p>
+          <div class="grid">
+            <label class="checkline"><input id="TAVUS_ENABLED" type="checkbox" /> TAVUS_ENABLED</label>
+            <label>TAVUS_BASE_URL<input id="TAVUS_BASE_URL" placeholder="https://tavusapi.com" autocomplete="off" /></label>
+            <label>TAVUS_API_KEY<input id="TAVUS_API_KEY" type="password" autocomplete="off" /></label>
+            <label>TAVUS_REPLICA_ID<input id="TAVUS_REPLICA_ID" placeholder="r9d30b0e55ac" autocomplete="off" /></label>
+            <label>TAVUS_VIDEO_ENDPOINT<input id="TAVUS_VIDEO_ENDPOINT" placeholder="/v2/videos" autocomplete="off" /></label>
+            <label>TAVUS_TIMEOUT_SECONDS<input id="TAVUS_TIMEOUT_SECONDS" type="number" min="30" /></label>
+            <label>TAVUS_POLL_INTERVAL_SECONDS<input id="TAVUS_POLL_INTERVAL_SECONDS" type="number" min="1" step="0.5" /></label>
+          </div>
+        </section>
+
+        <section class="advanced-group">
+          <h2>百度曦灵数字人</h2>
+          <p class="hint">在百度智能云曦灵开放平台开通应用，填入 AppID、AppKey 和可用的数字人形象 ID。这里仅新增可选云端接口，不影响现有 Sync.so、fal.ai、OmniHuman、Tavus 配置。</p>
+          <div class="grid">
+            <label class="checkline"><input id="BAIDU_XILING_ENABLED" type="checkbox" /> BAIDU_XILING_ENABLED</label>
+            <label>BAIDU_XILING_BASE_URL<input id="BAIDU_XILING_BASE_URL" placeholder="https://open.xiling.baidu.com" autocomplete="off" /></label>
+            <label>BAIDU_XILING_APP_ID<input id="BAIDU_XILING_APP_ID" type="password" autocomplete="off" /></label>
+            <label>BAIDU_XILING_APP_KEY<input id="BAIDU_XILING_APP_KEY" type="password" autocomplete="off" /></label>
+            <label>BAIDU_XILING_FIGURE_ID<input id="BAIDU_XILING_FIGURE_ID" placeholder="数字人形象 ID" autocomplete="off" /></label>
+            <label>BAIDU_XILING_TTS_PERSON<input id="BAIDU_XILING_TTS_PERSON" placeholder="可选：曦灵发音人 ID" autocomplete="off" /></label>
+            <label>BAIDU_XILING_WIDTH<input id="BAIDU_XILING_WIDTH" type="number" min="240" step="1" /></label>
+            <label>BAIDU_XILING_HEIGHT<input id="BAIDU_XILING_HEIGHT" type="number" min="240" step="1" /></label>
+            <label class="checkline"><input id="BAIDU_XILING_TRANSPARENT" type="checkbox" /> BAIDU_XILING_TRANSPARENT</label>
+            <label>BAIDU_XILING_TIMEOUT_SECONDS<input id="BAIDU_XILING_TIMEOUT_SECONDS" type="number" min="30" /></label>
+            <label>BAIDU_XILING_POLL_INTERVAL_SECONDS<input id="BAIDU_XILING_POLL_INTERVAL_SECONDS" type="number" min="1" step="0.5" /></label>
+          </div>
+        </section>
+
+        <section class="advanced-group">
+          <h2>飞影 API 数字人</h2>
+          <p class="hint">飞影 API V2 支持上传源视频创建形象、创建声音并按文本生成数字人视频。真实调用前必须配置 HIFLY_TOKEN，并准备公网可访问的视频和音频 URL。</p>
+          <div class="grid">
+            <label class="checkline"><input id="HIFLY_ENABLED" type="checkbox" /> HIFLY_ENABLED</label>
+            <label>HIFLY_BASE_URL<input id="HIFLY_BASE_URL" placeholder="https://hfw-api.hifly.cc" autocomplete="off" /></label>
+            <label>HIFLY_TOKEN<input id="HIFLY_TOKEN" type="password" autocomplete="off" /></label>
+            <label class="checkline"><input id="HIFLY_REQUIRED" type="checkbox" /> HIFLY_REQUIRED</label>
+            <label>HIFLY_POLL_INTERVAL_SECONDS<input id="HIFLY_POLL_INTERVAL_SECONDS" type="number" min="1" step="0.5" /></label>
+            <label>HIFLY_TIMEOUT_SECONDS<input id="HIFLY_TIMEOUT_SECONDS" type="number" min="30" /></label>
+          </div>
+        </section>
+
+        <section class="advanced-group">
+          <h2>火山 OmniHuman1.5 数字人</h2>
+          <div class="grid">
+            <label class="checkline"><input id="OMNIHUMAN_ENABLED" type="checkbox" /> OMNIHUMAN_ENABLED</label>
+            <label>OMNIHUMAN_ACCESS_KEY<input id="OMNIHUMAN_ACCESS_KEY" type="password" autocomplete="off" /></label>
+            <label>OMNIHUMAN_SECRET_KEY<input id="OMNIHUMAN_SECRET_KEY" type="password" autocomplete="off" /></label>
+            <label>OMNIHUMAN_ENDPOINT<input id="OMNIHUMAN_ENDPOINT" placeholder="https://visual.volcengineapi.com" autocomplete="off" /></label>
+            <label>OMNIHUMAN_REGION<input id="OMNIHUMAN_REGION" placeholder="cn-north-1" autocomplete="off" /></label>
+            <label>OMNIHUMAN_SERVICE<input id="OMNIHUMAN_SERVICE" placeholder="cv" autocomplete="off" /></label>
+            <label>OMNIHUMAN_VERSION<input id="OMNIHUMAN_VERSION" placeholder="2024-06-06" autocomplete="off" /></label>
+            <label>OMNIHUMAN_REQ_KEY<input id="OMNIHUMAN_REQ_KEY" placeholder="jimeng_realman_avatar_picture_omni_v15" autocomplete="off" /></label>
+            <label>OMNIHUMAN_OUTPUT_RESOLUTION<input id="OMNIHUMAN_OUTPUT_RESOLUTION" type="number" min="480" step="1" /></label>
+            <label>OMNIHUMAN_PROMPT<input id="OMNIHUMAN_PROMPT" autocomplete="off" /></label>
+            <label class="checkline"><input id="OMNIHUMAN_PE_FAST_MODE" type="checkbox" /> OMNIHUMAN_PE_FAST_MODE</label>
+            <label>OMNIHUMAN_TIMEOUT_SECONDS<input id="OMNIHUMAN_TIMEOUT_SECONDS" type="number" min="30" /></label>
+            <label>OMNIHUMAN_POLL_INTERVAL_SECONDS<input id="OMNIHUMAN_POLL_INTERVAL_SECONDS" type="number" min="1" step="0.5" /></label>
+          </div>
+        </section>
+
+        <section class="advanced-group">
+          <h2>Wav2Lip / YYWav2Lip 兼容数字人</h2>
+          <div class="grid">
+            <label class="checkline"><input id="WAV2LIP_ENABLED" type="checkbox" /> WAV2LIP_ENABLED</label>
+            <label>WAV2LIP_ROOT<input id="WAV2LIP_ROOT" autocomplete="off" /></label>
+            <label>WAV2LIP_CHECKPOINT<input id="WAV2LIP_CHECKPOINT" autocomplete="off" /></label>
+            <label class="checkline"><input id="YY_WAV2LIP_ENABLED" type="checkbox" /> YY_WAV2LIP_ENABLED</label>
+            <label>YY_WAV2LIP_CHECKPOINT<input id="YY_WAV2LIP_CHECKPOINT" autocomplete="off" /></label>
+            <label>YY_WAV2LIP_ROLE_MODEL_DIR<input id="YY_WAV2LIP_ROLE_MODEL_DIR" autocomplete="off" /></label>
+          </div>
+        </section>
+
+        <section class="advanced-group">
+          <h2>MuseTalk / LatentSync 口型同步</h2>
+          <div class="grid">
+            <label class="checkline"><input id="MUSETALK_ENABLED" type="checkbox" /> MUSETALK_ENABLED</label>
+            <label>MUSETALK_ROOT<input id="MUSETALK_ROOT" autocomplete="off" /></label>
+            <label>MUSETALK_MODEL_DIR<input id="MUSETALK_MODEL_DIR" autocomplete="off" /></label>
+            <label class="checkline"><input id="LATENTSYNC_ENABLED" type="checkbox" /> LATENTSYNC_ENABLED</label>
+            <label>LATENTSYNC_ROOT<input id="LATENTSYNC_ROOT" autocomplete="off" /></label>
+            <label>LATENTSYNC_CHECKPOINT<input id="LATENTSYNC_CHECKPOINT" autocomplete="off" /></label>
+            <label>LATENTSYNC_UNET_CONFIG<input id="LATENTSYNC_UNET_CONFIG" autocomplete="off" /></label>
+          </div>
+        </section>
+
+        <section class="advanced-group">
+          <h2>剪映 / Duix</h2>
+          <div class="grid">
+            <label class="checkline"><input id="JIANYING_ENABLED" type="checkbox" /> JIANYING_ENABLED</label>
+            <label>JIANYING_DRAFT_ROOT<input id="JIANYING_DRAFT_ROOT" autocomplete="off" /></label>
+            <label class="checkline"><input id="DUIX_ENABLED" type="checkbox" /> DUIX_ENABLED</label>
+            <label>DUIX_BASE_URL<input id="DUIX_BASE_URL" autocomplete="off" /></label>
+          </div>
+        </section>
+        <section class="advanced-group">
+          <h2>云端声音和视频服务</h2>
+          <div class="grid">
+            <label>CLOUD_VOICE_PROVIDER<input id="CLOUD_VOICE_PROVIDER_ADVANCED" data-mirror-for="CLOUD_VOICE_PROVIDER" autocomplete="off" /></label>
+            <label>DASHSCOPE_API_KEY<input id="DASHSCOPE_API_KEY" type="password" autocomplete="off" /></label>
+            <label>ALIYUN_BAILIAN_REGION<input id="ALIYUN_BAILIAN_REGION" placeholder="cn-beijing" autocomplete="off" /></label>
+            <label>ALIYUN_VOICE_MODEL<input id="ALIYUN_VOICE_MODEL" placeholder="cosyvoice-v1" autocomplete="off" /></label>
+            <label>ELEVENLABS_API_KEY<input id="ELEVENLABS_API_KEY" type="password" autocomplete="off" /></label>
+            <label>AZURE_SPEECH_KEY<input id="AZURE_SPEECH_KEY" type="password" autocomplete="off" /></label>
+            <label>AZURE_SPEECH_ENDPOINT<input id="AZURE_SPEECH_ENDPOINT" autocomplete="off" /></label>
+            <label>CUSTOM_HTTP_TTS_BASE_URL<input id="CUSTOM_HTTP_TTS_BASE_URL" autocomplete="off" /></label>
+            <label>CUSTOM_HTTP_TTS_API_KEY<input id="CUSTOM_HTTP_TTS_API_KEY" type="password" autocomplete="off" /></label>
+            <label>CLOUD_VIDEO_PROVIDER<input id="CLOUD_VIDEO_PROVIDER_ADVANCED" data-mirror-for="CLOUD_VIDEO_PROVIDER" autocomplete="off" /></label>
+            <label>FAL_API_KEY<input id="FAL_API_KEY" type="password" autocomplete="off" /></label>
+            <label>FAL_LATENTSYNC_MODEL<input id="FAL_LATENTSYNC_MODEL" placeholder="fal-ai/latentsync" autocomplete="off" /></label>
+            <label>FAL_MUSETALK_MODEL<input id="FAL_MUSETALK_MODEL" placeholder="fal-ai/musetalk" autocomplete="off" /></label>
+            <label>SELF_HOSTED_LIPSYNC_BASE_URL<input id="SELF_HOSTED_LIPSYNC_BASE_URL" autocomplete="off" /></label>
+            <label>SELF_HOSTED_LIPSYNC_API_KEY<input id="SELF_HOSTED_LIPSYNC_API_KEY" type="password" autocomplete="off" /></label>
+          </div>
+        </section>
+      </details>
+
+      <section class="panel">
+        <h2>.env 输出</h2>
+        <pre id="envOutput">保存或校验后显示可复制的环境变量。</pre>
+      </section>
+
+      <section class="panel">
+        <h2>对齐报告</h2>
+        <pre id="alignmentReport">校验后显示内容生产、数字人、剪映和桌面体验对齐情况。</pre>
+      </section>
+
+      <section class="panel">
+        <h2>后端日志</h2>
+        <pre id="backendLog">后端日志会显示在这里。</pre>
+      </section>
+      <section class="panel">
+        <div class="section-title">
+          <h2>云端声音和视频服务</h2>
+          <span>先看成本，再决定是否切换到真实云端渲染。</span>
+        </div>
+        <div class="grid">
+          <label>声音服务
+            <select id="CLOUD_VOICE_PROVIDER">
+              <option value="aliyun_bailian_cosyvoice">阿里云百炼 CosyVoice，推荐中文声音克隆</option>
+              <option value="aliyun_bailian_qwen_tts">阿里云百炼 Qwen-TTS</option>
+              <option value="aliyun_bailian_minimax">阿里云百炼 MiniMax 声音克隆</option>
+              <option value="elevenlabs">ElevenLabs，国际化声音效果好</option>
+              <option value="azure_tts_no_clone">Azure TTS，稳定但不是首选克隆</option>
+              <option value="edge_tts_no_clone">Edge TTS，免费试用但非正式克隆</option>
+              <option value="custom_http_tts">自定义 HTTP TTS</option>
+            </select>
+          </label>
+          <label>视频渲染 / 口型同步
+            <select id="CLOUD_VIDEO_PROVIDER">
+              <option value="fal_musetalk">fal.ai MuseTalk，低成本预览</option>
+              <option value="fal_latentsync">fal.ai LatentSync，高质量 final</option>
+              <option value="baidu_xiling">百度曦灵数字人，中文云端数字人</option>
+              <option value="hifly">飞影 API，上传源视频直接制作数字人</option>
+              <option value="self_hosted_lipsync">自建模型服务，长期最低成本</option>
+              <option value="did_optional">D-ID，可选一站式但成本高</option>
+              <option value="heygen_optional">HeyGen，可选一站式但成本高</option>
+              <option value="local">本地 / dry-run 回退</option>
+            </select>
+          </label>
+          <label>每月视频条数<input id="costVideosPerMonth" type="number" min="0" value="30" /></label>
+          <label>平均时长（秒）<input id="costAverageDurationSeconds" type="number" min="1" value="60" /></label>
+          <label>每条中文字数<input id="costAverageChineseChars" type="number" min="0" value="500" /></label>
+        </div>
+        <div class="actions">
+          <button id="estimateCloudCostBtn" type="button">估算云端成本</button>
+        </div>
+        <pre id="cloudCostEstimate">选择供应商后点击估算，结果会显示在这里。</pre>
+      </section>
+    </main>
+    <script src="./settings.js"></script>
+  </body>
+</html>

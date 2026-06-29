@@ -1,0 +1,71 @@
+{
+  "name": "xiongtu-ip-agent-desktop",
+  "version": "0.1.0",
+  "description": "雄图IP智能体桌面客户端",
+  "main": "main.js",
+  "scripts": {
+    "dev": "electron .",
+    "build:win": "electron-builder --win nsis",
+    "build:dir": "electron-builder --dir"
+  },
+  "devDependencies": {
+    "electron": "^31.7.7",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.xiongtu.ipagent",
+    "productName": "雄图IP智能体",
+    "directories": {
+      "output": "../../dist/desktop"
+    },
+    "files": [
+      "**/*",
+      "!node_modules/.cache/**"
+    ],
+    "extraResources": [
+      {
+        "from": "../../app",
+        "to": "app",
+        "filter": [
+          "**/*",
+          "!storage/**",
+          "!__pycache__/**",
+          "!**/__pycache__/**",
+          "!*.log"
+        ]
+      },
+      {
+        "from": "../../dist/customer-backend/aivo_backend",
+        "to": "backend"
+      },
+      {
+        "from": "../../build/client_seed/desktop-settings.seed.json",
+        "to": "desktop-settings.seed.json"
+      },
+      {
+        "from": "../../build/client_seed/storage",
+        "to": "storage"
+      },
+      {
+        "from": "../../scripts",
+        "to": "scripts",
+        "filter": [
+          "**/*.py"
+        ]
+      },
+      {
+        "from": "../../pyproject.toml",
+        "to": "pyproject.toml"
+      }
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}

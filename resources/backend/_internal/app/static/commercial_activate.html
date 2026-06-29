@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>雄图IP智能体 软件激活</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #eef4fb;
+      --panel: #ffffff;
+      --line: #d9e2ef;
+      --text: #102033;
+      --muted: #64748b;
+      --brand: #0f8276;
+      --green: #047857;
+      --red: #dc2626;
+      --blue: #2563eb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at top left, rgba(15, 130, 118, 0.12), transparent 34%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Microsoft YaHei", Arial, sans-serif;
+    }
+    .shell {
+      width: min(980px, calc(100vw - 32px));
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+    .card, .result {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: 0 16px 38px rgba(15, 23, 42, 0.1);
+      padding: 22px;
+    }
+    h1, h2, p { margin: 0; }
+    h1 { font-size: 26px; }
+    h2 { font-size: 19px; margin-bottom: 14px; }
+    p { color: var(--muted); line-height: 1.7; margin-top: 8px; }
+    label {
+      display: block;
+      margin: 15px 0 6px;
+      color: #475569;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    input {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      padding: 12px;
+      font-size: 15px;
+      color: var(--text);
+      outline: none;
+    }
+    input:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(15, 130, 118, 0.12);
+    }
+    button {
+      width: 100%;
+      margin-top: 18px;
+      padding: 13px 14px;
+      border: 0;
+      border-radius: 7px;
+      background: var(--brand);
+      color: #fff;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    button:disabled {
+      opacity: 0.65;
+      cursor: wait;
+    }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: var(--blue);
+      font-weight: 800;
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+    .status.ok { background: #dcfce7; color: var(--green); }
+    .status.bad { background: #fee2e2; color: var(--red); }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .item {
+      min-height: 82px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #f8fafc;
+    }
+    .item span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 7px;
+    }
+    .item strong {
+      display: block;
+      word-break: break-all;
+      line-height: 1.5;
+    }
+    .support {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #f1f5f9;
+      color: #475569;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+    @media (max-width: 860px) {
+      .shell { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="card">
+      <h1>雄图IP智能体 软件激活</h1>
+      <p>输入授权码后，系统会绑定当前设备。激活成功后客户软件会定期校验授权、获取版本更新和功能权限。</p>
+
+      <label>授权码</label>
+      <input id="licenseKey" placeholder="AIVO-XXXXX-XXXXX-XXXXX-XXXXX" autocomplete="off" />
+      <label>设备名称</label>
+      <input id="deviceName" placeholder="例如：剪辑电脑、公司前台电脑" />
+      <label>设备代码</label>
+      <input id="machineId" />
+      <label>当前版本</label>
+      <input id="appVersion" value="0.1.0" />
+      <button id="activateBtn">立即激活</button>
+      <p>设备代码由本机生成，重装系统或更换电脑后如果无法激活，请联系售后重置设备。</p>
+    </section>
+
+    <section class="result">
+      <div id="status" class="status">等待激活</div>
+      <h2>设备状态</h2>
+      <div class="grid">
+        <div class="item"><span>客户</span><strong id="rCustomer">-</strong></div>
+        <div class="item"><span>套餐</span><strong id="rPlan">-</strong></div>
+        <div class="item"><span>到期时间</span><strong id="rExpires">-</strong></div>
+        <div class="item"><span>设备</span><strong id="rDevice">-</strong></div>
+        <div class="item"><span>最新版本</span><strong id="rVersion">-</strong></div>
+        <div class="item"><span>更新方式</span><strong id="rUpdate">-</strong></div>
+      </div>
+      <div id="support" class="support">激活结果会显示在这里。请不要把授权码发送给非购买人员。</div>
+    </section>
+  </main>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const errorMap = {
+      license_not_found: "授权码不存在，请检查是否复制完整。",
+      license_disabled: "授权已停用，请联系售后。",
+      license_expired: "授权已到期，请联系续费。",
+      device_limit_reached: "设备数量已达上限，请联系售后重置设备。",
+      machine_mismatch: "当前设备与原激活设备不一致。",
+      machine_code_required: "缺少设备代码，请刷新页面后重试。",
+    };
+    function machineId() {
+      const saved = localStorage.getItem("aivoMachineId");
+      if (saved) return saved;
+      const array = crypto.getRandomValues(new Uint32Array(4));
+      const next = "web-" + Array.from(array).map((n) => n.toString(16)).join("-");
+      localStorage.setItem("aivoMachineId", next);
+      return next;
+    }
+    function setStatus(text, type = "") {
+      $("status").textContent = text;
+      $("status").className = `status ${type}`;
+    }
+    function fill(data) {
+      $("rCustomer").textContent = data.customer_name || data.customer?.name || "-";
+      $("rPlan").textContent = data.plan || data.license?.plan || "-";
+      $("rExpires").textContent = data.expires_at || data.license?.expires_at || "永久";
+      $("rDevice").textContent = data.activation?.device_name || data.activation?.machine_code_hash || "-";
+      $("rVersion").textContent = data.update?.latest_version || "暂无新版本";
+      $("rUpdate").textContent = data.update?.force_update ? "需要强制更新" : data.update?.available ? "有可用更新" : "已是可用版本";
+      $("support").textContent = "激活成功。授权令牌已保存在当前浏览器，正式客户端会自动保存到本机。";
+    }
+    $("machineId").value = machineId();
+    $("activateBtn").onclick = async () => {
+      $("activateBtn").disabled = true;
+      setStatus("正在激活...");
+      try {
+        const res = await fetch("/activation/activate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            license_key: $("licenseKey").value.trim(),
+            machine_code: $("machineId").value.trim(),
+            device_name: $("deviceName").value.trim(),
+            app_version: $("appVersion").value.trim(),
+            platform: "windows",
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(errorMap[data.detail] || data.detail || "激活失败");
+        localStorage.setItem("aivoActivationToken", data.activation.activation_token);
+        setStatus("激活成功", "ok");
+        fill(data);
+      } catch (error) {
+        setStatus("激活失败", "bad");
+        $("support").textContent = error.message;
+      } finally {
+        $("activateBtn").disabled = false;
+      }
+    };
+  </script>
+</body>
+</html>

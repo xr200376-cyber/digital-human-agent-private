@@ -1,0 +1,16 @@
+[Unit]
+Description=Xiongtu IP Agent commercial backend
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/aivo-commercial
+EnvironmentFile=/etc/aivo-commercial/aivo-commercial.env
+ExecStart=/opt/aivo-commercial/venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8080 --workers 2
+Restart=always
+RestartSec=5
+User=aivo
+Group=aivo
+
+[Install]
+WantedBy=multi-user.target

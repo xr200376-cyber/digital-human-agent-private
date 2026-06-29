@@ -1,0 +1,41 @@
+{
+  "generated_at": "2026-06-08T01:43:12.736661+00:00",
+  "root": "G:\\app\\third_party",
+  "projects": [
+    {
+      "key": "pixelle-video",
+      "url": "https://github.com/AIDC-AI/Pixelle-Video.git",
+      "target": "G:\\app\\third_party\\Pixelle-Video",
+      "license": "Apache-2.0",
+      "status": "dry-run"
+    },
+    {
+      "key": "pyjianyingdraft",
+      "url": "https://github.com/GuanYixuan/pyJianYingDraft.git",
+      "target": "G:\\app\\third_party\\pyJianYingDraft",
+      "license": "Apache-2.0",
+      "status": "dry-run"
+    },
+    {
+      "key": "latentsync",
+      "url": "https://github.com/bytedance/LatentSync.git",
+      "target": "G:\\app\\third_party\\LatentSync",
+      "license": "Apache-2.0 code; model weights separate",
+      "status": "dry-run"
+    },
+    {
+      "key": "musetalk",
+      "url": "https://github.com/TMElyralab/MuseTalk.git",
+      "target": "G:\\app\\third_party\\MuseTalk",
+      "license": "MIT code; testdata non-commercial only",
+      "status": "dry-run"
+    },
+    {
+      "key": "douyin-downloader",
+      "url": "https://github.com/jiji262/douyin-downloader.git",
+      "target": "G:\\app\\third_party\\douyin-downloader",
+      "license": "MIT",
+      "status": "vendored"
+    }
+  ]
+}

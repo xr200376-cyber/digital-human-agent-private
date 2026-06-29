@@ -1,0 +1,4 @@
+storage/
+!storage/.gitkeep
+**/internal_provider_secrets.json
+**/*.local.json
