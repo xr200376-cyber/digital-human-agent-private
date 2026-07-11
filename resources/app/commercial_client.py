@@ -14,7 +14,7 @@ from urllib import error, parse, request
 from app.utils.files import ensure_dir
 
 
-DEFAULT_COMMERCIAL_API_BASE = "https://api.xiongtuai.cc"
+DEFAULT_COMMERCIAL_API_BASE = "https://api.digitalhumanagent.example.com"
 DEFAULT_OFFLINE_GRACE_SECONDS = 3 * 24 * 60 * 60
 
 

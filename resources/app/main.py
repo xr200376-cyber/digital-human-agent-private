@@ -151,7 +151,7 @@ from app.utils.files import ensure_dir, read_json, write_json, write_placeholder
 from app.video_remix import LocalFFmpegVideoRemixEngine, VideoRemixError
 from app.video_templates import get_video_template, list_video_templates
 
-app = FastAPI(title="雄图IP智能体 API", version="0.1.0", docs_url=None, redoc_url=None, openapi_url=None)
+app = FastAPI(title="数字人智能体 API", version="0.1.0", docs_url=None, redoc_url=None, openapi_url=None)
 app.include_router(commercial_router)
 STATIC_DIR = Path(__file__).resolve().parent / "static"
 DEFAULT_PRESET_VOICE_SOURCE_DIR = Path("D:/Backup/xwechat_files/wxid_rm27hl739b7222_616c/msg/file/2026-06")

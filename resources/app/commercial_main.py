@@ -15,7 +15,7 @@ def _docs_url() -> str | None:
 
 
 app = FastAPI(
-    title="Xiongtu IP Agent Commercial Backend",
+    title="Digital Human Agent Commercial Backend",
     version="1.0.0",
     docs_url=_docs_url(),
     redoc_url=None,
@@ -43,7 +43,7 @@ def root() -> RedirectResponse:
 def health(settings: Settings = Depends(get_settings)) -> dict[str, object]:
     return {
         "ok": True,
-        "service": "xiongtu-commercial-backend",
+        "service": "digital-human-agent-commercial-backend",
         "app_env": settings.app_env,
         "storage_dir": str(settings.storage_dir),
         "commercial_repository_backend": settings.commercial_repository_backend,

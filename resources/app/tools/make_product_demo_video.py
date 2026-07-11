@@ -15,12 +15,12 @@ from playwright.sync_api import sync_playwright
 
 ROOT = Path("G:/app")
 RELEASE_ROOT = Path("G:/release")
-WORK_ROOT = RELEASE_ROOT / f"xiongtu_product_demo_{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+WORK_ROOT = RELEASE_ROOT / f"digital_human_agent_product_demo_{datetime.now().strftime('%Y%m%d-%H%M%S')}"
 SCREEN_DIR = WORK_ROOT / "screens"
 AUDIO_DIR = WORK_ROOT / "audio"
 SLIDE_DIR = WORK_ROOT / "slides"
 SEGMENT_DIR = WORK_ROOT / "segments"
-FINAL_VIDEO = WORK_ROOT / "雄图IP智能体_产品演示_自然女声版.mp4"
+FINAL_VIDEO = WORK_ROOT / "数字人智能体_产品演示_自然女声版.mp4"
 NARRATION_TXT = WORK_ROOT / "演示旁白.txt"
 
 WIDTH = 1920
@@ -31,7 +31,7 @@ FPS = 30
 DEMO_VALUES = {
     "reference": "https://v.douyin.com/真实案例链接",
     "script": (
-        "今天给大家演示雄图IP智能体。它可以把参考视频、文案、声音、数字人、"
+        "今天给大家演示数字人智能体。它可以把参考视频、文案、声音、数字人、"
         "画中画素材和发布流程放到一个工作台里，按步骤生成能直接发布的口播短视频。"
     ),
     "title": "数字人口播短视频制作演示",
@@ -45,7 +45,7 @@ SEGMENTS = [
         "image": "full_workbench.png",
         "title": "一页完成数字人口播生产",
         "subtitle": "真实工作台演示",
-        "voice": "这是雄图IP智能体，一套面向本地商家和内容团队的数字人口播短视频生产工具。核心流程都集中在一个工作台里。",
+        "voice": "这是数字人智能体，一套面向本地商家和内容团队的数字人口播短视频生产工具。核心流程都集中在一个工作台里。",
         "bullets": ["IP 学习", "声音和数字人", "剪辑导出", "发布投流"],
     },
     {
@@ -256,7 +256,7 @@ def draw_slide(index: int, segment: dict[str, object]) -> Path:
     small_font = font(22, False)
 
     draw.rounded_rectangle((70, 56, 330, 104), radius=24, fill=(20, 44, 82, 255), outline=(52, 129, 255, 170), width=2)
-    draw.text((96, 66), "雄图IP智能体", font=brand_font, fill=(245, 249, 255))
+    draw.text((96, 66), "数字人智能体", font=brand_font, fill=(245, 249, 255))
     draw.text((70, 156), str(segment["title"]), font=title_font, fill=(255, 255, 255))
     draw.text((74, 226), str(segment["subtitle"]), font=subtitle_font, fill=(139, 182, 255))
 

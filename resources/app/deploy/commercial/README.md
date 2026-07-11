@@ -1,4 +1,4 @@
-# 雄图 IP 智能体客户运营后台部署说明
+# 数字人智能体客户运营后台部署说明
 
 这个目录用于把授权后台迁移到另一台 Linux 服务器。模板文件不包含真实密码、Token、数据库连接串、服务器 IP 或客户数据。
 
@@ -91,7 +91,7 @@
 7. 配置 Nginx 和 HTTPS。
 
    ```bash
-   sudo cp app/deploy/commercial/nginx_api_xiongtuai.conf.template /etc/nginx/conf.d/api.xiongtuai.cc.conf
+   sudo cp app/deploy/commercial/nginx_api_digitalhumanagent.conf.template /etc/nginx/conf.d/api.digitalhumanagent.example.com.conf
    sudo nginx -t
    sudo systemctl reload nginx
    ```
@@ -99,8 +99,8 @@
 8. 验证服务。
 
    ```bash
-   curl -fsS https://api.xiongtuai.cc/health
-   curl -fsS https://api.xiongtuai.cc/updates/latest
+   curl -fsS https://api.digitalhumanagent.example.com/health
+   curl -fsS https://api.digitalhumanagent.example.com/updates/latest
    ```
 
 ## PostgreSQL 与文件存储选择

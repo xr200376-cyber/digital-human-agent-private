@@ -1,7 +1,7 @@
 {
-  "name": "xiongtu-ip-agent-desktop",
+  "name": "digital-human-agent-desktop",
   "version": "0.1.0",
-  "description": "雄图IP智能体桌面客户端",
+  "description": "数字人智能体桌面客户端",
   "main": "main.js",
   "scripts": {
     "dev": "electron .",
@@ -13,8 +13,8 @@
     "electron-builder": "^24.13.3"
   },
   "build": {
-    "appId": "com.xiongtu.ipagent",
-    "productName": "雄图IP智能体",
+    "appId": "com.digitalhuman.agent",
+    "productName": "数字人智能体",
     "directories": {
       "output": "../../dist/desktop"
     },

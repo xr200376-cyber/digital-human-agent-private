@@ -48,7 +48,7 @@ from app.main import app, get_settings
 from app.settings import Settings
 
 
-def _client(tmp_path: Path, *, admin_password: str = "xiongtuai123") -> TestClient:
+def _client(tmp_path: Path, *, admin_password: str = "digitalhuman123") -> TestClient:
     app.dependency_overrides.clear()
     app.dependency_overrides[get_settings] = lambda: Settings(
         dry_run=True,
@@ -59,7 +59,7 @@ def _client(tmp_path: Path, *, admin_password: str = "xiongtuai123") -> TestClie
 
 
 def _admin_login(client: TestClient) -> None:
-    response = client.post("/admin/api/login", json={"username": "xiongtuai", "password": "xiongtuai123"})
+    response = client.post("/admin/api/login", json={"username": "digitalhuman", "password": "digitalhuman123"})
     assert response.status_code == 200, response.text
 
 
@@ -910,7 +910,7 @@ def test_commercial_shop_page_exposes_manual_payment_flow():
     shop = Path("G:/app/static/commercial_shop.html").read_text(encoding="utf-8")
 
     for expected in [
-        "<title>雄图IP智能体 自助购买</title>",
+        "<title>数字人智能体 自助购买</title>",
         "选择套餐",
         "微信收款码",
         "提交付款信息",
@@ -960,7 +960,7 @@ Create `G:\app\static\commercial_shop.html` with this structure:
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>雄图IP智能体 自助购买</title>
+  <title>数字人智能体 自助购买</title>
   <style>
     body { margin: 0; font-family: "Microsoft YaHei", Arial, sans-serif; background: #f6f8fb; color: #0f172a; }
     header { padding: 28px 36px; background: #102a54; color: #fff; }
@@ -980,7 +980,7 @@ Create `G:\app\static\commercial_shop.html` with this structure:
 </head>
 <body>
   <header>
-    <h1>雄图IP智能体 自助购买</h1>
+    <h1>数字人智能体 自助购买</h1>
     <p>选择套餐后微信付款，提交付款信息，后台确认后自动发授权码或充值积分。</p>
   </header>
   <main>

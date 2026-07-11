@@ -205,7 +205,7 @@ class Settings(BaseSettings):
     s3_bucket: str | None = None
     s3_access_key_id: str | None = None
     s3_secret_access_key: str | None = None
-    commercial_admin_username: str = "xiongtuai"
+    commercial_admin_username: str = "digitalhuman"
     commercial_admin_password: str = ""
     commercial_admin_password_hash: str = ""
     commercial_admin_session_secret: str = ""
@@ -213,7 +213,7 @@ class Settings(BaseSettings):
     commercial_admin_cookie_secure: bool = True
     commercial_login_rate_limit_per_minute: int = 5
     commercial_api_rate_limit_per_minute: int = 60
-    commercial_api_base_url: str = "https://api.xiongtuai.cc"
+    commercial_api_base_url: str = "https://api.digitalhumanagent.example.com"
     commercial_release_public_base_url: str = ""
     commercial_backup_retention_days: int = 14
     commercial_license_required: bool = True

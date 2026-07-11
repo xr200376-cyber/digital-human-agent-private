@@ -128,7 +128,7 @@ def build_customer_package(
     ffmpeg_exe: Path | str | None = None,
     ytdlp_exe: Path | str | None = None,
     include_test_api_keys: bool = False,
-    product: str = "雄图IP智能体",
+    product: str = "数字人智能体",
 ) -> Path:
     source = Path(source).resolve()
     output_dir = Path(output_dir).resolve()
@@ -174,7 +174,7 @@ def build_customer_package(
     return package_dir
 
 
-def cleanup_old_delivery_packages(output_dir: Path | str, product: str = "雄图IP智能体") -> list[Path]:
+def cleanup_old_delivery_packages(output_dir: Path | str, product: str = "数字人智能体") -> list[Path]:
     output_dir = Path(output_dir).resolve()
     if not output_dir.exists():
         return []
@@ -436,7 +436,7 @@ def main() -> int:
         action="store_true",
         help="include allowlisted test API keys for customer trial packages",
     )
-    parser.add_argument("--product", default="雄图IP智能体")
+    parser.add_argument("--product", default="数字人智能体")
     args = parser.parse_args()
     package_dir = build_customer_package(
         source=args.source,

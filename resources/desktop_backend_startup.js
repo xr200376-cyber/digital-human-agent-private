@@ -38,8 +38,8 @@ function isOwnBackendProcessInfo(info, knownBackendRoots) {
   }
 
   return (
-    executablePath.includes("\\xiongtu-ip-agent-desktop\\resources\\backend\\") ||
-    executablePath.includes("\\雄图ip智能体\\resources\\backend\\")
+    executablePath.includes("\\digital-human-agent-desktop\\resources\\backend\\") ||
+    executablePath.includes("\\数字人智能体\\resources\\backend\\")
   );
 }
 

@@ -1,1 +1,1 @@
-"""Operational scripts for the Aivo/Xiongtu backend."""
+"""Operational scripts for the Aivo/Digital Human Agent backend."""

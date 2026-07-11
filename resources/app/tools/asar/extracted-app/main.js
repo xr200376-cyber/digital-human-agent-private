@@ -807,7 +807,7 @@ function createMainWindow() {
     height: 900,
     minWidth: 1100,
     minHeight: 720,
-    title: "雄图IP智能体",
+    title: "数字人智能体",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
@@ -828,7 +828,7 @@ function createSettingsWindow() {
   settingsWindow = new BrowserWindow({
     width: 980,
     height: 820,
-    title: "雄图IP智能体设置",
+    title: "数字人智能体设置",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true,
@@ -846,7 +846,7 @@ function createTray() {
     "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGklEQVR42mNkoBAwUqifYdQAhtEwCkbBBAAABV0AARd3E1sAAAAASUVORK5CYII="
   );
   tray = new Tray(icon);
-  tray.setToolTip("雄图IP智能体");
+  tray.setToolTip("数字人智能体");
   tray.setContextMenu(
     Menu.buildFromTemplate([
       { label: "打开工作台", click: () => (mainWindow ? mainWindow.show() : createMainWindow()) },
